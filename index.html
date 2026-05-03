@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FinanceFlow">
+<meta name="theme-color" content="#0d1117">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FinanceFlow">
+<meta name="theme-color" content="#0d1117">
+<link rel="manifest" href="manifest.json">
+<title>💎 FinanceFlow</title>
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--border:#21262d;--border2:#30363d;--text:#e6edf3;--text2:#8b949e;--text3:#656d76;--gold:#e8a87c;--green:#7ce8c0;--blue:#7cb8e8;--red:#e87c7c;--purple:#c07ce8;--r:14px;--rs:10px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:"Helvetica Neue",-apple-system,sans-serif;direction:rtl;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+input,textarea,button{font-family:inherit;-webkit-appearance:none;appearance:none}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)!important;box-shadow:0 0 0 2px rgba(232,168,124,0.2)}
+button{cursor:pointer;transition:opacity 0.15s,transform 0.1s}
+button:active{opacity:0.75;transform:scale(0.96)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+#hdr{background:rgba(22,27,34,0.97);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+#content{flex:1;overflow-y:auto;padding:14px 12px 90px;max-width:820px;width:100%;margin:0 auto;-webkit-overflow-scrolling:touch}
+#nav{background:rgba(22,27,34,0.97);border-top:1px solid var(--border);display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+.nb{flex:1;background:none;border:none;color:var(--text3);padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:48px;border-top:2px solid transparent;transition:color 0.15s,border-color 0.15s}
+.nb.active{color:var(--gold);border-top-color:var(--gold)}
+.nb span:first-child{font-size:18px}
+.nb span:last-child{font-size:9px;font-weight:500}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.ct{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px}
+.pt{font-size:18px;font-weight:800;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(33,38,45,0.5)}
+.row:last-child{border-bottom:none}
+.kg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.kc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;display:flex;align-items:center;gap:9px;cursor:pointer;transition:transform 0.15s}
+.kc:active{transform:scale(0.97)}
+.kv{font-size:15px;font-weight:800}
+.pb{background:var(--bg3);border-radius:6px;height:6px;overflow:hidden}
+.pf{height:100%;border-radius:6px;transition:width 0.5s}
+.inp{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--rs);color:var(--text);padding:11px 12px;font-size:15px;font-family:inherit;transition:border-color 0.15s}
+.inp::placeholder{color:var(--text3)}
+.lbl{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px}
+.ig{margin-bottom:12px}
+textarea.inp{resize:vertical;min-height:64px}
+.bp{background:var(--gold);color:#0d1117;border:none;border-radius:var(--rs);padding:11px 18px;font-weight:800;font-size:13px;font-family:inherit;min-height:42px}
+.bs{background:none;color:var(--text2);border:1px solid var(--border2);border-radius:var(--rs);padding:9px 14px;font-size:12px;font-family:inherit;min-height:38px}
+.bd{background:none;color:var(--red);border:1px solid rgba(232,124,124,0.3);border-radius:var(--rs);padding:9px 14px;font-size:12px}
+.bi{background:none;border:none;padding:4px 6px;font-size:15px;min-height:30px;min-width:30px}
+.bm{background:var(--bg3);color:var(--gold);border:1px solid var(--border);border-radius:8px;padding:4px 9px;font-size:11px;min-height:28px}
+.pill{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:6px 12px;font-size:11px;color:var(--text2);white-space:nowrap}
+.pill.on{border-color:var(--gold);color:var(--gold);background:rgba(232,168,124,0.1)}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+#mo{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center}
+#mo.show{display:flex}
+#mb{background:var(--bg2);border:1px solid var(--border2);border-radius:18px 18px 0 0;padding:18px 14px 18px;width:100%;max-width:580px;max-height:88vh;overflow-y:auto;animation:su 0.28s cubic-bezier(0.34,1.3,0.64,1)}
+@keyframes su{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.mt{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.bk{background:none;border:none;color:var(--text2);font-size:12px;padding:3px}
+.ib{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:9px 11px;margin-bottom:7px;font-size:11px;color:var(--text2);line-height:1.6}
+.tb{background:rgba(124,232,192,0.08);border:1px solid rgba(124,232,192,0.2);border-radius:var(--rs);padding:8px 11px;margin-bottom:7px;font-size:11px;color:var(--green)}
+.wb{background:rgba(232,124,124,0.08);border:1px solid rgba(232,168,124,0.2);border-radius:var(--rs);padding:8px 11px;margin-bottom:7px;font-size:11px;color:var(--gold)}
+.ic{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--gold);border-radius:var(--r);padding:13px;margin-bottom:9px}
+.gc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:9px}
+.gb{display:inline-block;border-radius:20px;padding:3px 8px;font-size:10px;font-weight:700;margin-top:5px}
+.gb.g{background:rgba(124,232,192,0.15);color:var(--green)}
+.gb.w{background:rgba(232,168,124,0.15);color:var(--gold)}
+.gb.r{background:rgba(232,124,124,0.15);color:var(--red)}
+.txr{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(33,38,45,0.4);gap:7px}
+.txr:last-child{border-bottom:none}
+.tc{flex:1;background:transparent;border:2px solid var(--border2);border-radius:var(--r);padding:16px 9px;text-align:center;color:var(--text);min-height:85px}
+.co{background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);padding:12px 9px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.es{text-align:center;padding:36px 16px}
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ccdel{background:var(--red);color:white;border:none;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.ld{animation:pulse 1.2s infinite}
+.cbub{max-width:82%;padding:9px 12px;border-radius:14px;font-size:12px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.cbub.u{background:#1e2a3a;border:1px solid rgba(124,184,232,0.2)}
+.cbub.a{background:#121e12;border:1px solid rgba(124,232,192,0.2)}
+.cs{font-size:9px;font-weight:700;margin-bottom:3px}
+.cs.u{color:var(--blue)}
+.cs.a{color:var(--green)}
+#cm{min-height:180px;max-height:36vh;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:10px}
+.cr{display:flex}
+.cr.u{justify-content:flex-start}
+.cr.a{justify-content:flex-end}
+</style>
+</head>
+<body>
+<div id="hdr">
+  <div style="display:flex;align-items:center;gap:8px">
+    <span style="font-size:20px">💎</span>
+    <div>
+      <div style="font-size:15px;font-weight:800;color:var(--gold)" id="hdr-name">FinanceFlow</div>
+      <div style="font-size:10px;color:var(--text2)" id="hdr-sub"></div>
+    </div>
+  </div>
+  <button class="bs" style="font-size:12px;padding:5px 10px" onclick="openHelp()">❓ עזרה</button>
+</div>
+<div id="content"></div>
+<nav id="nav">
+  <button class="nb active" onclick="gt('dash')" id="t-dash"><span>🏠</span><span>סקירה</span></button>
+  <button class="nb" onclick="gt('inv')" id="t-inv"><span>📊</span><span>השקעות</span></button>
+  <button class="nb" onclick="gt('tx')" id="t-tx"><span>💳</span><span>תזרים</span></button>
+  <button class="nb" onclick="gt('goals')" id="t-goals"><span>🎯</span><span>יעדים</span></button>
+  <button class="nb" onclick="gt('salary')" id="t-salary"><span>💰</span><span>משכורת</span></button>
+  <button class="nb" onclick="gt('ai')" id="t-ai"><span>🤖</span><span>AI</span></button>
+  <button class="nb" onclick="gt('settings')" id="t-settings"><span>⚙️</span><span>הגדרות</span></button>
+</nav>
+<div id="mo" onclick="CM(event)"><div id="mb"></div></div>
+<script>
+const K='ff_v6';
+const BL={investments:[],goals:[],transactions:[],aiChat:[],varExpenses:[],profile:{name:'',age:'',family:'',job:'',city:'',kids:'',notes:'',photo:''},settings:{salaryDay:10,monthlySalary:'',fixedExp:[]},lastCompound:null,notifSent:{}};
+function ld(){try{const r=localStorage.getItem(K);return r?JSON.parse(r):JSON.parse(JSON.stringify(BL))}catch{return JSON.parse(JSON.stringify(BL))}}
+function sv(){try{localStorage.setItem(K,JSON.stringify(DB))}catch{}}
+let DB=ld();
+if(!DB.varExpenses)DB.varExpenses=[];
+if(!DB.profile)DB.profile={name:'',age:'',family:'',job:'',city:'',kids:'',notes:'',photo:''};
+if(!DB.settings.fixedExp)DB.settings.fixedExp=[];
+if(!DB.bankBalance)DB.bankBalance={};
+if(!DB.notifSent)DB.notifSent={};
+const fmt=n=>(+(n||0)).toLocaleString('he-IL');
+const fmtS=n=>(n>=0?'+':'')+fmt(n);
+const nm=()=>new Date().toISOString().slice(0,7);
+const td=()=>new Date().toISOString().slice(0,10);
+const uid=()=>Date.now()+Math.floor(Math.random()*9999);
+const MN=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+const ml=ym=>{if(!ym)return'';const[y,m]=ym.split('-');return MN[parseInt(m)-1]+' '+y};
+const ICATS=[
+  {id:'realestate',lb:'נדל״ן',ic:'🏠',cl:'#e8a87c',flds:[{k:'dealType',l:'סוג',t:'chips',opts:['דירה למגורים','דירה להשקעה','קרקע','מסחרי','אחר']},{k:'address',l:'כתובת',t:'text',p:'תל אביב...'},{k:'purchasePrice',l:'מחיר קנייה (₪)',t:'number',p:'1200000'},{k:'currentValue',l:'שווי נוכחי (₪)',t:'number',p:'1350000'},{k:'monthlyRent',l:'שכ״ד חודשי (₪)',t:'number',opt:true},{k:'mortgage',l:'משכנתא (₪/חודש)',t:'number',opt:true},{k:'managementFee',l:'דמי ניהול (₪/חודש)',t:'number',opt:true},{k:'notes',l:'הערות',t:'textarea',opt:true}]},
+  {id:'stocks',lb:'שוק ההון',ic:'📈',cl:'#7ce8c0',flds:[{k:'dealType',l:'סוג',t:'chips',opts:['S&P 500','MSCI World','Nasdaq 100','תל אביב 125','קרן כספית MMF','ETF כללי','מניות בודדות','אג״ח','אחר']},{k:'name',l:'שם / פרטים',t:'text',p:'Vanguard VOO...'},{k:'currentValue',l:'שווי תיק (₪)',t:'number',p:'85000'},{k:'monthlyDeposit',l:'הפקדה חודשית (₪)',t:'number',p:'1000',opt:true},{k:'annualReturn',l:'תשואה שנתית (%)',t:'number',p:'7',opt:true},{k:'broker',l:'ברוקר',t:'chips',opts:['IBI','מיטב דש','מור','Interactive Brokers','eToro','אחר'],opt:true},{k:'managementFeePercent',l:'דמי ניהול שנתיים (%)',t:'number',p:'0.5',opt:true},{k:'notes',l:'הערות',t:'textarea',opt:true}]},
+  {id:'pension',lb:'פנסיה / השתלמות',ic:'🏦',cl:'#7cb8e8',flds:[{k:'dealType',l:'סוג',t:'chips',opts:['קרן פנסיה','קרן השתלמות','ביטוח מנהלים','קופת גמל','אחר']},{k:'company',l:'חברה',t:'chips',opts:['מגדל','הראל','מנורה מבטחים','הפניקס','מיטב','מור','כלל','אחר']},{k:'currentValue',l:'צבירה (₪)',t:'number',p:'320000'},{k:'monthlyDeposit',l:'הפקדה חודשית (₪)',t:'number',p:'1800',opt:true},{k:'annualReturn',l:'תשואה שנתית (%)',t:'number',p:'5',opt:true},{k:'managementFeePercent',l:'דמי ניהול מצבירה (%)',t:'number',p:'0.5',opt:true},{k:'notes',l:'הערות',t:'textarea',opt:true}]},
+  {id:'crypto',lb:'קריפטו',ic:'₿',cl:'#f7931a',flds:[{k:'dealType',l:'סוג',t:'chips',opts:['Bitcoin','Ethereum','Altcoins','Stablecoins','DeFi','אחר']},{k:'name',l:'מטבעות / פלטפורמה',t:'text',p:'BTC, ETH...'},{k:'currentValue',l:'שווי (₪)',t:'number',p:'25000'},{k:'invested',l:'סכום שהושקע (₪)',t:'number',p:'18000',opt:true},{k:'notes',l:'הערות',t:'textarea',opt:true}]},
+  {id:'business',lb:'עסק / פרילנס',ic:'💼',cl:'#c07ce8',flds:[{k:'dealType',l:'סוג',t:'chips',opts:['עסק עצמאי','שותפות','חברה בע״מ','פרילנס','אחר']},{k:'name',l:'שם העסק',t:'text',p:'ייעוץ...'},{k:'currentValue',l:'שווי (₪)',t:'number',p:'150000'},{k:'monthlyRent',l:'הכנסה חודשית (₪)',t:'number',opt:true},{k:'notes',l:'הערות',t:'textarea',opt:true}]},
+  {id:'other',lb:'אחר',ic:'💰',cl:'#aaa',flds:[{k:'dealType',l:'סוג',t:'text',p:'זהב, אמנות...'},{k:'name',l:'שם',t:'text',p:'תן שם לנכס'},{k:'currentValue',l:'שווי (₪)',t:'number',p:'50000'},{k:'monthlyRent',l:'תשואה חודשית (₪)',t:'number',opt:true},{k:'notes',l:'הערות',t:'textarea',opt:true}]}
+];
+const ic=id=>ICATS.find(c=>c.id===id)||ICATS[5];
+const FXCAT=[{id:'mortgage',lb:'🏠 משכנתא',cl:'#e8a87c'},{id:'savings',lb:'📈 חיסכון',cl:'#7ce8c0'},{id:'insurance',lb:'🛡️ ביטוח',cl:'#7cb8e8'},{id:'pension',lb:'🏦 פנסיה',cl:'#c07ce8'},{id:'rent',lb:'🏘️ שכ״ד',cl:'#f7931a'},{id:'mgmt',lb:'📱 סלולר / מנויים',cl:'#e87c7c'},{id:'other',lb:'📋 אחר',cl:'#aaa'}];
+const fc=id=>FXCAT.find(c=>c.id===id)||FXCAT[6];
+const INCC=['משכורת','בונוס','שכ״ד שמתקבל','דיבידנד','פרילנס','מכירת נכס','מתנה','קצבה'];
+const EXPC=['מזון וסופר','תחבורה','בידור ומסעדות','בריאות','ביגוד','חינוך','חשבונות','ביטוח','ילדים','חופשות','מנויים','ספורט','אחר'];
+const FS=['רווק/ה','נשוי/נשואה','גרוש/ה','אלמן/ה','ידוע/ה בציבור'];
+// auto compound
+(()=>{const tm=nm();if(DB.lastCompound===tm)return;DB.investments=DB.investments.map(inv=>{const dep=parseFloat(inv.monthlyDeposit)||0,ret=(parseFloat(inv.annualReturn)||0)/12/100,fee=(parseFloat(inv.managementFeePercent)||0)/12/100;if(!dep&&!ret&&!fee)return inv;return{...inv,currentValue:Math.round((inv.currentValue||0)*(1+ret-fee)+dep)}});DB.lastCompound=tm;sv()})();
+let CT='dash';
+function gt(t){CT=t;document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));const b=document.getElementById('t-'+t);if(b)b.classList.add('active');render()}
+function getFin(){
+  const tot=DB.investments.reduce((s,i)=>s+(i.currentValue||0),0);
+  const totFee=DB.investments.reduce((s,i)=>s+(parseFloat(i.managementFee)||0)+((parseFloat(i.managementFeePercent)||0)/12/100*(i.currentValue||0)),0);
+  const uTx=DB.transactions.filter(t=>!t.auto);
+  const tm=nm(),tmTx=uTx.filter(t=>t.date&&t.date.startsWith(tm));
+  const inc=tmTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp=tmTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  return{tot,totFee,uTx,inc,exp,bal:inc-exp};
+}
+function render(){
+  const p=DB.profile||{};
+  const hn=document.getElementById('hdr-name');const hs=document.getElementById('hdr-sub');
+  if(hn)hn.textContent=p.name?'שלום, '+p.name+' 👋':'FinanceFlow 💎';
+  if(hs)hs.textContent=[p.age?'גיל '+p.age:'',p.city].filter(Boolean).join(' • ')||'';
+  const c=document.getElementById('content');c.innerHTML='';
+  const isNew=!p.name&&!DB.investments.length&&!DB.transactions.length;
+  if(isNew&&CT==='dash'){c.appendChild(rWelcome());return}
+  const fns={dash:rDash,inv:rInv,tx:rTx,goals:rGoals,salary:rSalary,ai:rAI,settings:rSettings};
+  if(fns[CT])c.appendChild(fns[CT]());
+}
+// WELCOME
+function rWelcome(){
+  const d=document.createElement('div');
+  d.innerHTML=`<div style="text-align:center;padding:18px 0 10px"><div style="font-size:50px;margin-bottom:8px">💎</div><h2 style="color:var(--text);margin-bottom:4px">ברוכים הבאים!</h2><p style="color:var(--text2);font-size:13px">בואו נכיר אותך</p></div>
+  <div class="card"><div class="ct">👤 פרופיל אישי</div>
+  <div class="ig"><label class="lbl">שם מלא *</label><input class="inp" id="p-name" placeholder="ישראל ישראלי"></div>
+  <div class="pg2" style="margin-bottom:10px">
+    <div class="ig" style="margin:0"><label class="lbl">גיל</label><input class="inp" type="number" id="p-age" placeholder="30"></div>
+    <div class="ig" style="margin:0"><label class="lbl">כמות ילדים</label><input class="inp" type="number" id="p-kids" placeholder="0" min="0"></div>
+  </div>
+  <div class="ig"><label class="lbl">מצב משפחתי</label><div class="pills" id="p-fam">${FS.map(f=>`<button class="pill" onclick="selFam('${f}',this)">${f}</button>`).join('')}</div></div>
+  <div class="pg2" style="margin-bottom:10px">
+    <div class="ig" style="margin:0"><label class="lbl">עיסוק</label><input class="inp" id="p-job" placeholder="מהנדס, מורה..."></div>
+    <div class="ig" style="margin:0"><label class="lbl">עיר</label><input class="inp" id="p-city" placeholder="תל אביב"></div>
+  </div>
+  <div class="ig"><label class="lbl">הערות / מטרות</label><textarea class="inp" id="p-notes" placeholder="רוצה לפרוש בגיל 55..."></textarea></div>
+  <button class="bp" style="width:100%;font-size:15px;margin-top:4px" onclick="saveProfile()">בואו נתחיל! 🚀</button></div>`;
+  return d;
+}
+let _famSel='';
+function selFam(f,btn){_famSel=f;document.querySelectorAll('#p-fam .pill').forEach(b=>{b.classList.remove('on');b.style.borderColor='';b.style.color='';b.style.background=''});btn.classList.add('on')}
+function saveProfile(){
+  const name=(document.getElementById('p-name')||{}).value||'';
+  if(!name.trim()){alert('נא להזין שם');return}
+  DB.profile={...DB.profile,name:name.trim(),age:(document.getElementById('p-age')||{}).value||'',family:_famSel,job:(document.getElementById('p-job')||{}).value||'',city:(document.getElementById('p-city')||{}).value||'',kids:(document.getElementById('p-kids')||{}).value||'',notes:(document.getElementById('p-notes')||{}).value||''};
+  sv();gt('dash');
+}
+function editProfile(){
+  const p=DB.profile||{};
+  OM(`<div class="mt">✏️ עריכת פרופיל</div>
+  <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:14px">
+    ${p.photo
+      ?`<img src="${p.photo}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);cursor:pointer" onclick="document.getElementById('edit-photo-inp').click()" title="החלף תמונה">`
+      :`<div style="width:72px;height:72px;border-radius:50%;background:var(--bg3);border:2px dashed var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:3px" onclick="document.getElementById('edit-photo-inp').click()"><span style="font-size:26px">📷</span><span style="font-size:9px;color:var(--gold)">הוסף תמונה</span></div>`}
+    <input type="file" id="edit-photo-inp" accept="image/*" style="display:none" onchange="handleEditPhoto(this)">
+    <div style="font-size:10px;color:var(--text3);margin-top:5px">לחץ כדי לבחור תמונה מהגלריה</div>
+  </div>
+  <div class="ig"><label class="lbl">שם מלא</label><input class="inp" id="ep-name" value="${p.name||''}"></div>
+  <div class="pg2" style="margin-bottom:10px">
+    <div class="ig" style="margin:0"><label class="lbl">גיל</label><input class="inp" type="number" id="ep-age" value="${p.age||''}"></div>
+    <div class="ig" style="margin:0"><label class="lbl">ילדים</label><input class="inp" type="number" id="ep-kids" value="${p.kids||''}" min="0"></div>
+  </div>
+  <div class="ig"><label class="lbl">מצב משפחתי</label><div class="pills">${FS.map(f=>`<button class="pill ${p.family===f?'on':''}" onclick="this.closest('.pills').querySelectorAll('.pill').forEach(b=>{b.classList.remove('on')});this.classList.add('on');window._epFam='${f}'">${f}</button>`).join('')}</div></div>
+  <div class="pg2" style="margin-bottom:10px">
+    <div class="ig" style="margin:0"><label class="lbl">עיסוק</label><input class="inp" id="ep-job" value="${p.job||''}"></div>
+    <div class="ig" style="margin:0"><label class="lbl">עיר</label><input class="inp" id="ep-city" value="${p.city||''}"></div>
+  </div>
+  <div class="ig"><label class="lbl">הערות / מטרות</label><textarea class="inp" id="ep-notes">${p.notes||''}</textarea></div>
+  <div style="display:flex;gap:7px"><button class="bp" style="flex:1" onclick="saveEditProfile()">💾 שמור</button><button class="bs" onclick="CM()">ביטול</button></div>`);
+  window._epFam=p.family||'';
+}
+function handleEditPhoto(inp){
+  var file=inp.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    DB.profile.photo=e.target.result;
+    sv();CM();editProfile();
+  };
+  reader.readAsDataURL(file);
+}
+function saveEditProfile(){
+  DB.profile={...DB.profile,name:(document.getElementById('ep-name')||{}).value||DB.profile.name,age:(document.getElementById('ep-age')||{}).value||'',family:window._epFam||'',job:(document.getElementById('ep-job')||{}).value||'',city:(document.getElementById('ep-city')||{}).value||'',kids:(document.getElementById('ep-kids')||{}).value||'',notes:(document.getElementById('ep-notes')||{}).value||''};
+  sv();CM();render();
+}
+// DASHBOARD
+function rDash(){
+  const{tot,totFee,uTx,inc,exp,bal}=getFin();const s=DB.settings||{};
+  const d=document.createElement('div');
+  let h=`<h2 class="pt">📊 סקירה כללית</h2>
+  <div class="kg">
+    <div class="kc" style="border-color:rgba(232,168,124,0.3)" onclick="gt('inv')"><span style="font-size:20px">💎</span><div><div style="font-size:10px;color:var(--text2)">סך נכסים</div><div class="kv" style="color:var(--gold)">₪${fmt(tot)}</div></div></div>
+    <div class="kc" style="border-color:rgba(124,232,192,0.3)" onclick="gt('tx')"><span style="font-size:20px">📥</span><div><div style="font-size:10px;color:var(--text2)">הכנסות החודש</div><div class="kv" style="color:var(--green)">₪${fmt(inc)}</div></div></div>
+    <div class="kc" style="border-color:rgba(232,124,124,0.3)" onclick="gt('tx')"><span style="font-size:20px">📤</span><div><div style="font-size:10px;color:var(--text2)">הוצאות החודש</div><div class="kv" style="color:var(--red)">₪${fmt(exp)}</div></div></div>
+    <div class="kc" style="border-color:rgba(${bal>=0?'124,232,192':'232,124,124'},0.3)" onclick="gt('tx')"><span style="font-size:20px">💵</span><div><div style="font-size:10px;color:var(--text2)">יתרה</div><div class="kv" style="color:${bal>=0?'var(--green)':'var(--red)'}">${fmtS(bal)}₪</div></div></div>
+  </div>`;
+  // Next salary date
+  if(s.salaryDay){const today=new Date();const nextSal=new Date(today.getFullYear(),today.getMonth(),parseInt(s.salaryDay||10));if(nextSal<=today)nextSal.setMonth(nextSal.getMonth()+1);const daysLeft=Math.ceil((nextSal-today)/(1000*60*60*24));if(daysLeft<=7&&daysLeft>0)h+=`<div class="card" style="border-color:rgba(232,168,124,0.3);background:rgba(232,168,124,0.05)"><div style="font-size:13px;font-weight:700;color:var(--gold)">💰 משכורת בעוד ${daysLeft} ימים</div><div style="font-size:11px;color:var(--text2);margin-top:2px">${s.monthlySalary?`₪${fmt(parseFloat(s.monthlySalary))} מתוכנן`:'הגדר משכורת בלשונית 💰'}</div></div>`}
+  if(totFee>0)h+=`<div class="card" style="border-color:rgba(232,124,124,0.25);cursor:pointer" onclick="gt('inv')"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:700;color:var(--red);font-size:13px">💳 דמי ניהול חודשיים</div><div style="color:var(--text2);font-size:11px">₪${fmt(Math.round(totFee*12))} בשנה</div></div><div class="kv" style="color:var(--red)">₪${fmt(Math.round(totFee))}</div></div></div>`;
+  if(DB.investments.length){
+    const bC={};DB.investments.forEach(i=>{bC[i.catId]=(bC[i.catId]||0)+(i.currentValue||0)});
+    h+=`<div class="card" style="cursor:pointer" onclick="gt('inv')"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="ct" style="margin:0">📈 פירוט נכסים</div><span style="font-size:11px;color:var(--gold)">הכל ←</span></div>`;
+    Object.entries(bC).forEach(([cid,v])=>{const cat=ic(cid);const p=tot?(v/tot*100):0;h+=`<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px">${cat.ic} ${cat.lb}</span><span style="color:${cat.cl};font-weight:700;font-size:13px">₪${fmt(v)}</span></div><div class="pb"><div class="pf" style="width:${p}%;background:${cat.cl}"></div></div></div>`});
+    h+='</div>';
+  }
+  const bM={};uTx.forEach(t=>{const m=t.date?t.date.slice(0,7):'x';if(!bM[m])bM[m]={inc:0,exp:0};if(t.type==='income')bM[m].inc+=t.amount;else bM[m].exp+=t.amount});
+  const mos=Object.keys(bM).sort().reverse().slice(0,3);
+  if(mos.length){
+    h+=`<div class="card" style="cursor:pointer" onclick="gt('tx')"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="ct" style="margin:0">💳 תזרים לפי חודשים</div><span style="font-size:11px;color:var(--gold)">הכל ←</span></div>`;
+    mos.forEach(m=>{const{inc:i,exp:e}=bM[m];const b=i-e;h+=`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:700;font-size:13px">${ml(m)}</span><span style="font-weight:800;font-size:13px;color:${b>=0?'var(--green)':'var(--red)'}">${b>=0?'✅':'⚠️'} ${fmtS(b)}₪</span></div><div style="display:flex;gap:6px"><div style="flex:1;background:rgba(124,232,192,0.07);border:1px solid rgba(124,232,192,0.15);border-radius:7px;padding:5px 8px"><div style="font-size:9px;color:var(--green)">📥</div><div style="font-weight:700;color:var(--green);font-size:12px">₪${fmt(i)}</div></div><div style="flex:1;background:rgba(232,124,124,0.07);border:1px solid rgba(232,124,124,0.15);border-radius:7px;padding:5px 8px"><div style="font-size:9px;color:var(--red)">📤</div><div style="font-weight:700;color:var(--red);font-size:12px">₪${fmt(e)}</div></div></div></div>`});
+    h+='</div>';
+  }
+  if(DB.goals.length){
+    h+=`<div class="card" style="cursor:pointer" onclick="gt('goals')"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div class="ct" style="margin:0">🎯 יעדים</div><span style="font-size:11px;color:var(--gold)">הכל ←</span></div>`;
+    DB.goals.forEach(g=>{const pct=g.target?Math.min(100,(g.saved||0)/g.target*100):0;h+=`<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px">${g.name}</span><span style="color:var(--gold);font-size:12px">${pct.toFixed(0)}%</span></div><div class="pb"><div class="pf" style="width:${pct}%;background:var(--gold)"></div></div></div>`});
+    h+='</div>';
+  }
+  if(!DB.investments.length&&!uTx.length)h+=`<div class="card" style="text-align:center;padding:24px;color:var(--text2);font-size:13px"><p>הוסף נכסים, הכנסות ויעדים 👆</p></div>`;
+  d.innerHTML=h;return d;
+}
+// INVESTMENTS
+let _delId=null,_invF='all';
+function rInv(){
+  const d=document.createElement('div');
+  const tot=DB.investments.reduce((s,i)=>s+(i.currentValue||0),0);
+  const totFee=DB.investments.reduce((s,i)=>s+(parseFloat(i.managementFee)||0)+((parseFloat(i.managementFeePercent)||0)/12/100*(i.currentValue||0)),0);
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h2 class="pt" style="margin:0">📊 ההשקעות שלי</h2><button class="bp" onclick="openInvWiz()">➕ הוסף</button></div>
+  <div class="pills"><button class="pill ${_invF==='all'?'on':''}" onclick="setIF('all')">🌐 הכל (${DB.investments.length})</button>`;
+  ICATS.filter(c=>DB.investments.some(i=>i.catId===c.id)).forEach(c=>{h+=`<button class="pill ${_invF===c.id?'on':''}" onclick="setIF('${c.id}')" style="${_invF===c.id?'border-color:'+c.cl+';color:'+c.cl+';background:'+c.cl+'15':''}">${c.ic} ${c.lb}</button>`});
+  h+='</div>';
+  const fil=_invF==='all'?DB.investments:DB.investments.filter(i=>i.catId===_invF);
+  if(!fil.length){h+=`<div class="es"><div style="font-size:42px;margin-bottom:9px">💎</div><div style="font-weight:700;margin-bottom:7px">אין נכסים עדיין</div><div style="color:var(--text2);margin-bottom:18px;font-size:13px">לחץ על ➕ הוסף</div><button class="bp" onclick="openInvWiz()">➕ הוסף נכס</button></div>`}
+  else{
+    fil.forEach(inv=>{
+      const cat=ic(inv.catId);const gain=inv.currentValue&&inv.purchasePrice>0?inv.currentValue-inv.purchasePrice:null;
+      const mf=(parseFloat(inv.managementFee)||0)+((parseFloat(inv.managementFeePercent)||0)/12/100*(inv.currentValue||0));
+      const isCDel=_delId===inv.id;
+      h+=`<div class="ic" style="border-top-color:${cat.cl}"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:20px">${cat.ic}</div><div style="font-weight:800;font-size:13px;margin-top:3px">${inv.displayName||cat.lb}</div><div style="color:var(--text2);font-size:11px">${cat.lb}${inv.dealType?' • '+inv.dealType:''}</div></div><div style="display:flex;gap:2px;align-items:center"><button class="bi" style="color:var(--blue)" onclick='openEditInv(${inv.id})'>✏️</button>${isCDel?`<button class="ccdel" onclick="doDelInv(${inv.id})">אשר</button>`:`<button class="bi" style="color:var(--red)" onclick="confDelInv(${inv.id})">🗑</button>`}</div></div>
+      <div style="font-size:18px;font-weight:800;color:${cat.cl};margin-top:8px">₪${fmt(inv.currentValue)}</div>
+      ${gain!==null?`<div style="font-size:11px;color:${gain>=0?'var(--green)':'var(--red)'};margin-top:2px">${gain>=0?'📈 +':'📉 '}₪${fmt(Math.abs(gain))}</div>`:''}
+      ${inv.monthlyRent>0?`<div style="font-size:11px;color:var(--green);margin-top:2px">💰 +₪${fmt(inv.monthlyRent)}/חודש</div>`:''}
+      ${inv.monthlyDeposit>0?`<div style="font-size:11px;color:var(--green);margin-top:2px">📥 ₪${fmt(inv.monthlyDeposit)}/חודש <span style="background:rgba(124,232,192,0.15);color:var(--green);border-radius:3px;font-size:9px;padding:1px 4px">אוטו׳</span></div>`:''}
+      ${inv.mortgage>0?`<div style="font-size:11px;color:var(--red);margin-top:2px">🏦 -₪${fmt(inv.mortgage)}/חודש</div>`:''}
+      ${parseFloat(inv.annualReturn)>0?`<div style="font-size:11px;color:var(--purple);margin-top:2px">📊 ${inv.annualReturn}% תשואה</div>`:''}
+      ${mf>0?`<div style="font-size:11px;color:var(--red);margin-top:2px">💳 דמי ניהול ≈₪${fmt(Math.round(mf))}/חודש</div>`:''}
+      ${inv.notes?`<div style="font-size:11px;color:var(--text3);margin-top:3px">${inv.notes}</div>`:''}</div>`;
+    });
+    h+=`<div class="card" style="background:rgba(232,168,124,0.05);border-color:rgba(232,168,124,0.2)"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;font-size:13px">💎 סך הכל</span><span style="font-size:18px;font-weight:800;color:var(--gold)">₪${fmt(tot)}</span></div>${totFee>0?`<div style="color:var(--red);font-size:11px;margin-top:4px">💳 דמי ניהול: ₪${fmt(Math.round(totFee))}/חודש</div>`:''}</div>`;
+  }
+  d.innerHTML=h;return d;
+}
+function setIF(f){_invF=f;gt('inv')}
+function confDelInv(id){_delId=id;gt('inv');setTimeout(()=>{if(_delId===id){_delId=null;gt('inv')}},3000)}
+function doDelInv(id){DB.investments=DB.investments.filter(i=>i.id!==id);_delId=null;sv();gt('inv')}
+let _wiz={step:0,catId:null,form:{},editId:null};
+function openInvWiz(){_wiz={step:0,catId:null,form:{},editId:null};renderWiz()}
+function openEditInv(id){const inv=DB.investments.find(i=>i.id===id);if(!inv)return;_wiz={step:1,catId:inv.catId,form:{...inv},editId:id};renderWiz()}
+function renderWiz(){
+  if(_wiz.step===0){let h='<div class="mt">➕ מה תרצה להוסיף?</div><div class="cg">';ICATS.forEach(c=>{h+=`<div class="co" style="border-color:${c.cl}44" onclick="selCat('${c.id}')"><span style="font-size:24px">${c.ic}</span><span style="font-weight:700;font-size:11px">${c.lb}</span></div>`});h+='</div>';OM(h)}
+  else{
+    const cat=ic(_wiz.catId);const flds=cat.flds||[];const isE=!!_wiz.editId;
+    let h=`<div class="mt"><button class="bk" onclick="wizBack()">←</button><span style="font-size:18px">${cat.ic}</span><span style="color:${cat.cl}">${isE?'✏️ עריכה — ':''} ${cat.lb}</span></div>`;
+    flds.forEach(f=>{const v=_wiz.form[f.k]||'';
+      h+=`<div class="ig"><label class="lbl">${f.l}${f.opt?' <span style="color:var(--text3);font-size:9px">(אופציונלי)</span>':''}</label>`;
+      if(f.t==='chips'){h+=`<div class="pills">`;f.opts.forEach(o=>h+=`<button class="pill ${v===o?'on':''}" onclick="wChip('${f.k}','${o.replace(/'/g,"\\'")}',false)">${o}</button>`);h+=`<button class="pill ${v&&!f.opts.includes(v)?'on':''}" onclick="wChip('${f.k}','',true)">✏️ אחר</button></div>`;if(v&&!f.opts.includes(v))h+=`<input class="inp" style="margin-top:5px" value="${v}" oninput="_wiz.form['${f.k}']=this.value">`}
+      else if(f.t==='textarea')h+=`<textarea class="inp" placeholder="${f.p||''}" oninput="_wiz.form['${f.k}']=this.value">${v}</textarea>`;
+      else h+=`<input class="inp" type="${f.t||'text'}" value="${v}" placeholder="${f.p||''}" oninput="_wiz.form['${f.k}']=this.value">`;
+      h+='</div>';
+    });
+    if((_wiz.catId==='stocks'||_wiz.catId==='pension')&&_wiz.form.currentValue){
+      const v=parseFloat(_wiz.form.currentValue)||0,dep=parseFloat(_wiz.form.monthlyDeposit)||0,ret=parseFloat(_wiz.form.annualReturn)||7,fee=parseFloat(_wiz.form.managementFeePercent)||0,net=(ret-fee)/12/100;
+      const calc=y=>{let vv=v;for(let m=0;m<y*12;m++)vv=vv*(1+net)+dep;return Math.round(vv)};
+      const maxV=calc(20);
+      h+=`<div style="background:var(--bg);border:1px solid rgba(124,232,192,0.25);border-radius:11px;padding:12px;margin-bottom:12px"><div style="color:var(--green);font-weight:700;font-size:12px;margin-bottom:9px">📈 מחשבון ריבית דריבית (${ret}%${fee?` פחות ${fee}% דמי ניהול`:''})</div>`;
+      [1,5,10,20].forEach(y=>{const val=calc(y);const pct=maxV?Math.round(val/maxV*100):0;h+=`<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:11px;color:var(--text2)">בעוד ${y} שנ׳</span><span style="font-size:12px;font-weight:800;color:var(--green)">₪${fmt(val)}</span></div><div class="pb"><div class="pf" style="width:${pct}%;background:linear-gradient(90deg,var(--green),var(--blue))"></div></div></div>`});
+      h+=`</div>`;
+    }
+    h+=`<div style="display:flex;gap:7px;margin-top:12px"><button class="bp" style="flex:1" onclick="saveInv()">${isE?'💾 שמור':'✅ הוסף נכס'}</button><button class="bs" onclick="CM()">ביטול</button></div>`;
+    OM(h);
+  }
+}
+function selCat(id){_wiz.catId=id;_wiz.step=1;renderWiz()}
+function wizBack(){if(_wiz.editId)CM();else{_wiz.step=0;renderWiz()}}
+function wChip(k,v,other){if(other){_wiz.form[k]='';renderWiz()}else{_wiz.form[k]=v;renderWiz()}}
+function saveInv(){
+  const cat=ic(_wiz.catId);const flds=cat.flds||[];const miss=flds.filter(f=>!f.opt&&!_wiz.form[f.k]);
+  if(miss.length){alert('נא למלא: '+miss.map(f=>f.l).join(', '));return}
+  const f=_wiz.form;const dn=f.name||f.company||f.address||f.dealType||cat.lb;
+  const inv={...f,catId:_wiz.catId,displayName:dn,id:_wiz.editId||uid(),currentValue:parseFloat(f.currentValue)||0,purchasePrice:parseFloat(f.purchasePrice)||0,monthlyRent:parseFloat(f.monthlyRent)||0,monthlyDeposit:parseFloat(f.monthlyDeposit)||0,mortgage:parseFloat(f.mortgage)||0,annualReturn:parseFloat(f.annualReturn)||0,managementFee:parseFloat(f.managementFee)||0,managementFeePercent:parseFloat(f.managementFeePercent)||0,invested:parseFloat(f.invested)||0};
+  if(_wiz.editId)DB.investments=DB.investments.map(i=>i.id===_wiz.editId?inv:i);else DB.investments.push(inv);
+  sv();CM();gt('inv');
+}
+// TRANSACTIONS
+let _txF='all',_txW={type:null,cat:'',custom:'',amt:'',date:'',note:'',editId:null};
+let _txMonth=nm();
+
+function allMonthsList(){
+  const y=new Date().getFullYear();
+  const mo=[];
+  // Last 3 years + next 1
+  for(let yr=y-1;yr<=y+1;yr++){
+    for(let m=1;m<=12;m++){
+      mo.push(yr+'-'+(m<10?'0':'')+m);
+    }
+  }
+  return mo;
+}
+
+function rTx(){
+  const d=document.createElement('div');
+  const allTx=DB.transactions.filter(t=>!t.auto);
+
+  // All transactions for selected month
+  const uTx=allTx.filter(t=>t.date&&t.date.startsWith(_txMonth));
+  const sorted=[...uTx].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const fil=_txF==='all'?sorted:sorted.filter(t=>t.type===_txF);
+  const eBCat={};uTx.filter(t=>t.type==='expense').forEach(t=>{eBCat[t.category]=(eBCat[t.category]||0)+t.amount});
+  const totE=Object.values(eBCat).reduce((s,v)=>s+v,0);
+  const mInc=uTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const mExp=uTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+
+  // Bank balance live
+  const curBal=(DB.bankBalance||{})[_txMonth]||{amount:'',updated:''};
+  const baseAmt=parseFloat(curBal.amount)||0;
+  const liveBal=baseAmt>0?baseAmt+mInc-mExp:null;
+
+  // Month selector - all 12 months of current year + prev/next
+  const months=allMonthsList();
+  const curYr=new Date().getFullYear();
+  const curMo=nm();
+  const monthsWithData=[...new Set(allTx.map(t=>t.date?t.date.slice(0,7):'').filter(Boolean))];
+  const displayMonths=[...new Set([...months.filter(m=>m.startsWith(curYr)||m.startsWith(curYr-1)),...monthsWithData])].sort().reverse();
+
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <h2 class="pt" style="margin:0">💳 תזרים</h2>
+    <button class="bp" style="font-size:13px;padding:9px 14px" onclick="openTxW()">➕ הוסף</button>
+  </div>`;
+
+  // Month selector strip
+  h+=`<div style="margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:8px 12px">
+      <span style="font-size:18px">📅</span>
+      <select style="flex:1;background:transparent;border:none;color:var(--text);font-size:14px;font-weight:700;font-family:inherit" onchange="_txMonth=this.value;_txF='all';gt('tx')">
+        ${displayMonths.map(m=>`<option value="${m}" ${m===_txMonth?'selected':''} style="background:var(--bg2)">${ml(m)}${m===curMo?' ← עכשיו':''}${monthsWithData.includes(m)?' ✦':''}</option>`).join('')}
+      </select>
+      <button onclick="navMonth(-1)" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:5px 10px;font-size:14px">‹</button>
+      <button onclick="navMonth(1)" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:5px 10px;font-size:14px">›</button>
+    </div>
+  </div>`;
+
+  // Bank balance card
+  h+=`<div style="background:linear-gradient(135deg,rgba(124,184,232,0.12),rgba(124,184,232,0.04));border:1px solid rgba(124,184,232,0.3);border-radius:14px;padding:14px;margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-weight:700;font-size:13px;color:var(--blue)">🏦 יתרת עו"ש — ${ml(_txMonth)}</div>
+      ${curBal.updated?`<span style="font-size:10px;color:var(--text3)">עודכן ${curBal.updated}</span>`:''}
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:${baseAmt>0?'12px':'4px'}">
+      <input class="inp" type="text" inputmode="numeric" id="bank-bal-inp"
+        placeholder="הזן יתרת פתיחה לחודש..."
+        value="${curBal.amount||''}"
+        style="flex:1;font-size:18px;font-weight:800;border-color:rgba(124,184,232,0.4)">
+      <button class="bp" onclick="saveBankBal()" style="background:var(--blue);color:#0d1117;white-space:nowrap">💾 שמור</button>
+    </div>
+    ${baseAmt>0?`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+      <div style="background:rgba(124,184,232,0.1);border-radius:9px;padding:8px;text-align:center">
+        <div style="font-size:9px;color:var(--blue);margin-bottom:2px">🏦 פתיחה</div>
+        <div style="font-size:13px;font-weight:800;color:var(--blue)">₪${fmt(baseAmt)}</div>
+      </div>
+      <div style="background:rgba(124,232,192,0.1);border-radius:9px;padding:8px;text-align:center">
+        <div style="font-size:9px;color:var(--green);margin-bottom:2px">📥 נכנס</div>
+        <div style="font-size:13px;font-weight:800;color:var(--green)">+₪${fmt(mInc)}</div>
+      </div>
+      <div style="background:rgba(232,124,124,0.1);border-radius:9px;padding:8px;text-align:center">
+        <div style="font-size:9px;color:var(--red);margin-bottom:2px">📤 יצא</div>
+        <div style="font-size:13px;font-weight:800;color:var(--red)">-₪${fmt(mExp)}</div>
+      </div>
+      <div style="background:rgba(${liveBal>=0?'124,232,192':'232,124,124'},0.15);border-radius:9px;padding:8px;text-align:center;border:1px solid rgba(${liveBal>=0?'124,232,192':'232,124,124'},0.3)">
+        <div style="font-size:9px;color:${liveBal>=0?'var(--green)':'var(--red)'};margin-bottom:2px">💵 יתרה</div>
+        <div style="font-size:13px;font-weight:800;color:${liveBal>=0?'var(--green)':'var(--red)'}">${liveBal>=0?'':''}₪${fmt(Math.round(liveBal))}</div>
+      </div>
+    </div>${liveBal<0?'<div class="wb" style="margin-top:8px;font-size:11px;margin-bottom:0">⚠️ גירעון! הוצאות עלו על ההכנסות</div>':''}`:
+    '<div style="font-size:11px;color:var(--text3)">💡 הזן יתרת פתיחה לחודש כדי לעקוב אחרי החשבון שלך בזמן אמת</div>'}
+  </div>`;
+
+  // Filter pills
+  h+=`<div class="pills">
+    <button class="pill ${_txF==='all'?'on':''}" onclick="setTxF('all')" style="${_txF==='all'?'border-color:var(--gold);color:var(--gold);background:rgba(232,168,124,0.1)':''}">🌐 הכל (${uTx.length})</button>
+    <button class="pill ${_txF==='income'?'on':''}" onclick="setTxF('income')" style="${_txF==='income'?'border-color:var(--green);color:var(--green);background:rgba(124,232,192,0.1)':''}">📥 הכנסות${mInc>0?' +₪'+fmt(mInc):''}</button>
+    <button class="pill ${_txF==='expense'?'on':''}" onclick="setTxF('expense')" style="${_txF==='expense'?'border-color:var(--red);color:var(--red);background:rgba(232,124,124,0.1)':''}">📤 הוצאות${mExp>0?' -₪'+fmt(mExp):''}</button>
+  </div>`;
+
+  // Expense chart (only when showing all or expenses)
+  if(_txF!=='income'&&Object.keys(eBCat).length){
+    let bh='<div class="card"><div class="ct">🥧 הוצאות לפי קטגוריה — '+ml(_txMonth)+'</div>';
+    Object.entries(eBCat).sort((a,b)=>b[1]-a[1]).forEach(([cat,val])=>{
+      const p=totE?val/totE*100:0;
+      bh+=`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span>${cat}</span><span style="color:var(--red);font-weight:700">₪${fmt(val)} (${p.toFixed(0)}%)</span></div><div class="pb"><div class="pf" style="width:${p}%;background:var(--red)"></div></div></div>`;
+    });
+    bh+='</div>';h+=bh;
+  }
+
+  // Transaction list
+  if(!fil.length){
+    h+=`<div class="es">
+      <div style="font-size:42px;margin-bottom:9px">📭</div>
+      <div style="font-weight:700;margin-bottom:6px">${ml(_txMonth)}</div>
+      <div style="color:var(--text2);font-size:13px;margin-bottom:16px">${_txMonth===curMo?'לא נרשמו עסקאות החודש':'לא נרשמו עסקאות בחודש זה'}</div>
+      ${_txMonth===curMo?'<button class="bp" onclick="openTxW()">➕ הוסף עסקה</button>':'<button class="bs" onclick="goNow()">📅 עבור לחודש הנוכחי</button>'}
+    </div>`;
+  } else {
+    h+=`<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-weight:800;font-size:14px">${ml(_txMonth)}</span>
+        <span style="font-weight:800;font-size:12px;color:${mInc-mExp>=0?'var(--green)':'var(--red)'}">${mInc-mExp>=0?'✅':'⚠️'} ${fmtS(mInc-mExp)}₪</span>
+      </div>`;
+    fil.forEach((t,i)=>{
+      h+=`<div class="txr" style="${i===fil.length-1?'border-bottom:none':''}">
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:12px">${t.type==='income'?'📥':'📤'} ${t.category}</div>
+          ${t.note?`<div style="font-size:10px;color:var(--text2)">${t.note}</div>`:''}
+          <div style="font-size:9px;color:var(--text3)">${t.date||''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <span style="font-weight:800;font-size:13px;color:${t.type==='income'?'var(--green)':'var(--red)'}">${t.type==='income'?'+':'-'}₪${fmt(t.amount)}</span>
+          <button class="bi" style="color:var(--blue);font-size:12px" onclick='openEditTx(${t.id})'>✏️</button>
+          <button class="bi" style="color:var(--red);font-size:12px" onclick='delTx(${t.id})'>✕</button>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+  d.innerHTML=h;return d;
+}
+
+function goNow(){_txMonth=nm();_txF='all';gt('tx');}
+function navMonth(dir){
+  const months=allMonthsList();
+  const idx=months.indexOf(_txMonth);
+  if(idx>=0&&idx+dir>=0&&idx+dir<months.length){
+    _txMonth=months[idx+dir];
+    _txF='all';
+    gt('tx');
+  }
+}
+function setTxF(f){_txF=f;gt('tx')}
+function saveBankBal(){
+  const el=document.getElementById('bank-bal-inp');
+  const val=(el?el.value:'').replace(/[^0-9.]/g,'');
+  if(!val)return;
+  if(!DB.bankBalance)DB.bankBalance={};
+  DB.bankBalance[_txMonth]={amount:val,updated:new Date().toLocaleDateString('he-IL')};
+  sv();gt('tx');
+}
+function delTx(id){DB.transactions=DB.transactions.filter(t=>t.id!==id);sv();gt('tx')}
+function openTxW(){_txW={type:null,cat:'',custom:'',amt:'',date:td(),note:'',editId:null};renderTxW()}
+function openEditTx(id){const t=DB.transactions.find(x=>x.id===id);if(!t)return;_txW={type:t.type,cat:t.category,custom:'',amt:String(t.amount),date:t.date||td(),note:t.note||'',editId:id};renderTxW()}
+function renderTxW(){
+  if(!_txW.type){OM(`<div class="mt">מה תרצה לרשום?</div><div style="display:flex;gap:9px"><button class="tc" onclick="setTxType('income')"><div style="font-size:32px">📥</div><div style="font-weight:800;margin-top:6px;font-size:13px">הכנסה</div><div style="color:var(--text2);font-size:11px">משכורת, שכ״ד...</div></button><button class="tc" onclick="setTxType('expense')"><div style="font-size:32px">📤</div><div style="font-weight:800;margin-top:6px;font-size:13px">הוצאה</div><div style="color:var(--text2);font-size:11px">קנייה, חשבון...</div></button></div>`)}
+  else{
+    const isE=!!_txW.editId;const type=_txW.type;const cats=type==='income'?[...INCC,...(DB._ci||[])]:([...EXPC,...(DB._ce||[])]);const col=type==='income'?'var(--green)':'var(--red)';
+    let h=`<div class="mt">${isE?'':('<button class="bk" onclick="setTxType(null)">←</button>')}<span style="color:${col}">${type==='income'?'📥 הכנסה':'📤 הוצאה'}${isE?' — עריכה':''}</span></div><label class="lbl">קטגוריה</label><div class="pills">`;
+    cats.forEach(c=>{const ac=_txW.cat===c;h+=`<button class="pill ${ac?'on':''}" onclick="setTxCat('${c.replace(/'/g,"\\'")}') " style="${ac?'border-color:'+col+';color:white;background:rgba(124,232,192,0.12)':''}">${c}</button>`});
+    h+=`<button class="pill ${_txW.cat==='__new__'?'on':''}" onclick="setTxCat('__new__')" style="${_txW.cat==='__new__'?'border-color:var(--gold);color:var(--gold)':''}">✏️ חדש</button></div>`;
+    if(_txW.cat==='__new__')h+=`<div class="ig"><label class="lbl">שם קטגוריה חדשה</label><input class="inp" value="${_txW.custom}" placeholder="מנויים..." oninput="_txW.custom=this.value"></div>`;
+    h+=`<div class="ig"><label class="lbl">סכום (₪)</label><input class="inp" type="number" style="font-size:22px;font-weight:800" value="${_txW.amt}" placeholder="0" oninput="_txW.amt=this.value"></div>`;
+    h+=`<div class="ig"><label class="lbl">תאריך</label><input class="inp" type="date" value="${_txW.date}" oninput="_txW.date=this.value"></div>`;
+    h+=`<div class="ig"><label class="lbl">הערה <span style="color:var(--text3);font-size:9px">(אופציונלי)</span></label><input class="inp" value="${_txW.note}" placeholder="על מה?" oninput="_txW.note=this.value"></div>`;
+    h+=`<div style="display:flex;gap:6px"><button class="bp" style="flex:1" onclick="saveTx()">${isE?'💾 שמור':'✅ הוסף'}</button><button class="bs" onclick="CM()">ביטול</button></div>`;
+    OM(h);
+  }
+}
+function setTxType(t){_txW.type=t;renderTxW()}
+function setTxCat(c){_txW.cat=c;renderTxW()}
+function saveTx(){
+  const fc=_txW.cat==='__new__'?_txW.custom:_txW.cat;if(!fc||!_txW.amt){alert('נא למלא קטגוריה וסכום');return}
+  if(_txW.cat==='__new__'&&fc){const k=_txW.type==='income'?'_ci':'_ce';if(!DB[k])DB[k]=[];if(!DB[k].includes(fc))DB[k].push(fc)}
+  const tx={type:_txW.type,category:fc,amount:parseFloat(_txW.amt),date:_txW.date,note:_txW.note};
+  if(_txW.editId)DB.transactions=DB.transactions.map(t=>t.id===_txW.editId?{...tx,id:_txW.editId}:t);else DB.transactions.push({...tx,id:uid()});
+  sv();CM();gt('tx');
+}
+// GOALS
+let _gW={name:'',target:'',saved:'',deadline:'',editId:null};
+function rGoals(){
+  const d=document.createElement('div');const now=new Date();
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h2 class="pt" style="margin:0">🎯 יעדים פיננסיים</h2><button class="bp" onclick="openGoalW()">➕ יעד חדש</button></div>`;
+  if(!DB.goals.length)h+=`<div class="es"><div style="font-size:42px;margin-bottom:9px">🎯</div><div style="font-weight:700;margin-bottom:7px">אין יעדים עדיין</div><div style="color:var(--text2);margin-bottom:18px;font-size:13px">חופשה, רכב, דירה...</div><button class="bp" onclick="openGoalW()">➕ הגדר יעד</button></div>`;
+  else DB.goals.forEach(g=>{
+    const pct=g.target?Math.min(100,(g.saved||0)/g.target*100):0;const rem=g.target-(g.saved||0);const done=pct>=100;
+    let mLeft=null,bC='w',bT='';
+    if(g.deadline){const dd=new Date(g.deadline+'-01');mLeft=Math.round((dd-now)/(1000*60*60*24*30));const needed=g.monthly||(mLeft>0?Math.ceil(rem/mLeft):Infinity);const sal=parseFloat(DB.settings.monthlySalary)||0;const fixT=(DB.settings.fixedExp||[]).reduce((s,e)=>s+e.amount,0);const avail=sal>0?sal-fixT:null;
+      if(mLeft<=0){bC='r';bT='⚠️ תאריך עבר'}else if(done){bC='g';bT='✅ הושג!'}else if(avail!==null){if(needed<=avail){bC='g';bT=`✅ בר-השגה — ₪${fmt(needed)}/חודש`}else{bC='r';bT=`⚠️ צריך ₪${fmt(needed)}/חודש`}}else bT=`💡 ₪${fmt(needed)}/חודש`;
+    }else if(done){bC='g';bT='✅ הושג!'}else if(g.monthly)bT=`💡 ₪${fmt(g.monthly)}/חודש`;
+    const r=20;const circ=2*Math.PI*r;const sd=circ-(pct/100)*circ;const rc=done?'#7ce8c0':pct>70?'#e8a87c':pct>40?'#f7931a':'#e87c7c';
+    h+=`<div class="gc" style="border-color:${done?'rgba(124,232,192,0.3)':'var(--border)'}"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-weight:800;font-size:15px;margin-bottom:3px">${done?'✅ ':''}${g.name}</div>${g.deadline?`<div style="color:var(--text2);font-size:11px">🗓 ${ml(g.deadline)}${mLeft!==null&&!done?` · ${mLeft} חודשים נותרו`:''}${mLeft!==null&&mLeft<=0?' · עבר':''}</div>`:''}</div><div style="display:flex;align-items:center;gap:4px"><svg width="48" height="48" style="transform:rotate(-90deg)"><circle cx="24" cy="24" r="${r}" fill="none" stroke="var(--bg3)" stroke-width="4"/><circle cx="24" cy="24" r="${r}" fill="none" stroke="${rc}" stroke-width="4" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${sd.toFixed(1)}" stroke-linecap="round"/><text x="24" y="28" text-anchor="middle" style="fill:${rc};font-size:9px;font-weight:800;transform:rotate(90deg);transform-origin:24px 24px">${pct.toFixed(0)}%</text></svg><div style="display:flex;flex-direction:column;gap:2px"><button class="bi" style="color:var(--blue);font-size:13px" onclick="openEditGoal(${g.id})">✏️</button><button class="bi" style="color:var(--red);font-size:13px" onclick="delGoal(${g.id})">🗑</button></div></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:8px 0"><div><label style="font-size:9px;color:var(--text3);display:block">יעד</label><span style="font-weight:800;font-size:12px;color:var(--gold)">₪${fmt(g.target)}</span></div><div><label style="font-size:9px;color:var(--text3);display:block">נחסך</label><span style="font-weight:800;font-size:12px;color:var(--green)">₪${fmt(g.saved||0)}</span></div><div><label style="font-size:9px;color:var(--text3);display:block">נותר</label><span style="font-weight:800;font-size:12px;color:var(--text2)">₪${fmt(rem)}</span></div>${g.monthly?`<div><label style="font-size:9px;color:var(--text3);display:block">לחודש</label><span style="font-weight:800;font-size:12px;color:var(--blue)">₪${fmt(g.monthly)}</span></div>`:''}</div>
+    ${bT?`<div class="gb ${bC}">${bT}</div>`:''}
+    <div class="pb" style="margin-top:8px"><div class="pf" style="width:${pct}%;background:${rc}"></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:7px"><span style="color:var(--text2);font-size:11px">${pct.toFixed(0)}% הושג</span>${done?'<span style="color:var(--green);font-weight:800;font-size:12px">🎉 הושג!</span>':`<div style="display:flex;gap:4px;flex-wrap:wrap">${[500,1000,2000,5000].map(a=>`<button class="bm" onclick="addGS(${g.id},${a})">+₪${fmt(a)}</button>`).join('')}</div>`}</div></div>`;
+  });
+  d.innerHTML=h;return d;
+}
+function delGoal(id){DB.goals=DB.goals.filter(g=>g.id!==id);sv();gt('goals')}
+function addGS(id,a){DB.goals=DB.goals.map(g=>g.id===id?{...g,saved:Math.min(g.target,(g.saved||0)+a)}:g);sv();gt('goals')}
+function openGoalW(){_gW={name:'',target:'',saved:'',deadline:'',editId:null};renderGoalW()}
+function openEditGoal(id){const g=DB.goals.find(x=>x.id===id);if(!g)return;_gW={name:g.name,target:String(g.target),saved:String(g.saved||0),deadline:g.deadline||'',editId:id};renderGoalW()}
+function renderGoalW(){
+  const isE=!!_gW.editId;const mos=_gW.deadline?Math.max(1,Math.round((new Date(_gW.deadline+'-01')-new Date())/(1000*60*60*24*30))):12;
+  const mon=_gW.target?Math.ceil((parseFloat(_gW.target)-(parseFloat(_gW.saved)||0))/mos):0;
+  const sal=parseFloat(DB.settings.monthlySalary)||0;const fixT=(DB.settings.fixedExp||[]).reduce((s,e)=>s+e.amount,0);const avail=sal>0?sal-fixT:null;const achiev=avail!==null?mon<=avail:null;
+  let h=`<div class="mt">${isE?'✏️ עריכת יעד':'🎯 יעד חדש'}</div>`;
+  if(!isE)h+=`<div class="pills">${['✈️ חופשה','🚗 רכב','🏠 דירה','🆘 קרן חירום','📚 לימודים','💍 חתונה','📱 ציוד'].map(p=>`<button class="pill ${_gW.name===p?'on':''}" onclick="setGP('${p}')">${p}</button>`).join('')}</div>`;
+  h+=`<div class="ig"><label class="lbl">שם היעד</label><input class="inp" value="${_gW.name}" placeholder="מה היעד?" oninput="_gW.name=this.value;updGC()"></div>`;
+  h+=`<div class="ig"><label class="lbl">כמה כסף צריך? (₪)</label><input class="inp" type="number" style="font-size:20px;font-weight:700" value="${_gW.target}" placeholder="0" oninput="_gW.target=this.value;updGC()"></div>`;
+  h+=`<div class="ig"><label class="lbl">כבר חסכת? (₪)</label><input class="inp" type="number" value="${_gW.saved}" placeholder="0" oninput="_gW.saved=this.value;updGC()"></div>`;
+  h+=`<div class="ig"><label class="lbl">תאריך יעד</label><input class="inp" type="month" value="${_gW.deadline}" min="${nm()}" oninput="_gW.deadline=this.value;updGC()"></div>`;
+  h+=`<div id="gcalc">${_gW.target?gCalcH(mon,mos,_gW.deadline,achiev,avail):''}</div>`;
+  h+=`<div style="display:flex;gap:6px"><button class="bp" style="flex:1" onclick="saveGoal()">${isE?'💾 שמור':'✅ שמור יעד'}</button><button class="bs" onclick="CM()">ביטול</button></div>`;
+  OM(h);
+}
+function gCalcH(mon,mos,dl,achiev,avail){return`<div style="background:var(--bg);border:1px solid ${achiev===true?'rgba(124,232,192,0.3)':achiev===false?'rgba(232,124,124,0.3)':'rgba(124,184,232,0.3)'};border-radius:10px;padding:11px;margin-bottom:11px;text-align:center"><div style="color:var(--text2);font-size:11px">כדי להגיע${dl?' עד '+ml(dl):' עוד שנה'} (${mos} חודשים):</div><div style="font-size:22px;font-weight:800;color:${achiev===true?'var(--green)':achiev===false?'var(--red)':'var(--blue)'};margin:4px 0">₪${fmt(mon)} / חודש</div>${achiev===true?'<div style="color:var(--green);font-size:10px">✅ בר-השגה לפי המשכורת שלך</div>':''}${achiev===false?`<div style="color:var(--red);font-size:10px">⚠️ גבוה מהיכולת (₪${fmt(avail)} פנוי)</div>`:''}</div>`}
+function updGC(){const mos=_gW.deadline?Math.max(1,Math.round((new Date(_gW.deadline+'-01')-new Date())/(1000*60*60*24*30))):12;const mon=_gW.target?Math.ceil((parseFloat(_gW.target)-(parseFloat(_gW.saved)||0))/mos):0;const sal=parseFloat(DB.settings.monthlySalary)||0;const fixT=(DB.settings.fixedExp||[]).reduce((s,e)=>s+e.amount,0);const avail=sal>0?sal-fixT:null;const achiev=avail!==null?mon<=avail:null;const el=document.getElementById('gcalc');if(el&&_gW.target)el.innerHTML=gCalcH(mon,mos,_gW.deadline,achiev,avail)}
+function setGP(p){_gW.name=p;renderGoalW()}
+function saveGoal(){if(!_gW.name||!_gW.target)return;const mos=_gW.deadline?Math.max(1,Math.round((new Date(_gW.deadline+'-01')-new Date())/(1000*60*60*24*30))):12;const mon=Math.ceil((parseFloat(_gW.target)-(parseFloat(_gW.saved)||0))/mos);const g={name:_gW.name,target:parseFloat(_gW.target),saved:parseFloat(_gW.saved)||0,deadline:_gW.deadline,monthly:mon,id:_gW.editId||uid()};if(_gW.editId)DB.goals=DB.goals.map(x=>x.id===_gW.editId?g:x);else DB.goals.push(g);sv();CM();gt('goals')}
+// SALARY
+function rSalary(){
+  const s=DB.settings||{};const d=document.createElement('div');const fixed=s.fixedExp||[];const varExp=DB.varExpenses||[];
+  const fixT=fixed.reduce((sum,e)=>sum+e.amount,0);const sal=parseFloat(s.monthlySalary)||0;
+  const thisMonthVar=varExp.filter(e=>e.date&&e.date.startsWith(nm()));const totVar=thisMonthVar.reduce((s2,e)=>s2+e.amount,0);
+  let h=`<h2 class="pt">💰 תכנון משכורת</h2><div class="tb" style="margin-bottom:9px;font-size:11px">📌 תכנון תקציב. מה שקרה בפועל — בלשונית 💳</div>`;
+  h+=`<div class="card"><div class="ct">⚙️ הגדרות משכורת</div><div class="pg2" style="margin-bottom:0"><div class="ig" style="margin:0"><label class="lbl">יום קבלת משכורת</label><input class="inp" type="number" min="1" max="31" value="${s.salaryDay||10}" oninput="sSF('salaryDay',parseInt(this.value))"></div><div class="ig" style="margin:0"><label class="lbl">משכורת חודשית נטו (₪)</label><input class="inp" type="text" inputmode="numeric" pattern="[0-9]*" value="${s.monthlySalary||''}" placeholder="15000" oninput="sSF('monthlySalary',this.value.replace(/[^0-9]/g,''));reRen()"></div></div><div class="ig" style="margin-top:10px;margin-bottom:0"><label class="lbl">תאריך קבלת משכורת אחרון</label><input class="inp" type="date" value="${s.lastSalaryDate||''}" oninput="sSF('lastSalaryDate',this.value)" placeholder="בחר תאריך"></div><div style="font-size:10px;color:var(--text3);margin-top:4px">💡 עזרה לחישוב תאריך משכורת הבאה</div>${sal&&fixT?`<div class="ib" style="margin-top:9px"><div style="display:flex;justify-content:space-between"><span>משכורת נטו</span><span style="color:var(--green);font-weight:700">₪${fmt(sal)}</span></div><div style="display:flex;justify-content:space-between"><span>הוצאות קבועות</span><span style="color:var(--red);font-weight:700">-₪${fmt(fixT)}</span></div><div style="display:flex;justify-content:space-between;border-top:1px solid var(--border2);margin-top:6px;padding-top:6px"><strong>נשאר</strong><strong style="color:${sal-fixT>=0?'var(--green)':'var(--red)'}">₪${fmt(sal-fixT)}</strong></div>${fixT/sal>0.5?`<div style="color:var(--red);font-size:10px;margin-top:3px">⚠️ ${Math.round(fixT/sal*100)}% מהמשכורת על קבועות — מעל 50%!</div>`:''}</div>`:''}</div>`;
+  h+=`<div class="card"><div class="ct">📋 הוצאות קבועות חודשיות</div><div class="ib" style="margin-bottom:10px;font-size:11px">לחץ על קטגוריה ← הוסף הוצאה עם שם, סכום ויום בחודש</div><div class="pills">${FXCAT.map(c=>`<button class="pill" onclick="openFEModal('${c.id}')" style="border-color:${c.cl}55;color:${c.cl}">${c.lb}</button>`).join('')}</div>`;
+  if(fixed.length){
+    const byCat={};fixed.forEach((e,i)=>{if(!byCat[e.category])byCat[e.category]=[];byCat[e.category].push({...e,idx:i})});
+    Object.keys(byCat).forEach(catId=>{const cat=fc(catId);const items=byCat[catId];const catTotal=items.reduce((s2,e)=>s2+e.amount,0);h+=`<div style="background:${cat.cl}09;border:1px solid ${cat.cl}22;border-radius:9px;padding:9px 11px;margin-bottom:7px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px"><span style="font-size:11px;font-weight:700;color:${cat.cl}">${cat.lb}</span><span style="font-size:11px;font-weight:700;color:var(--red)">-₪${fmt(catTotal)}</span></div>`;items.forEach(e=>{h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-top:1px solid ${cat.cl}15"><div><span style="font-size:12px;font-weight:600">${e.name}</span>${e.date?`<span style="font-size:9px;color:var(--text3);margin-right:6px"> יום ${e.date}</span>`:''}</div><div style="display:flex;align-items:center;gap:5px"><span style="font-size:12px;font-weight:700;color:var(--red)">₪${fmt(e.amount)}</span><button class="bi" style="color:var(--red);font-size:12px" onclick="remFE(${e.idx})">✕</button></div></div>`});h+='</div>'});
+    h+=`<div class="row" style="margin-top:3px"><strong style="font-size:13px">סה״כ קבועות</strong><strong style="color:var(--red)">-₪${fmt(fixT)}</strong></div>`;
+  }else{h+=`<div style="color:var(--text3);font-size:12px;text-align:center;padding:10px">לחץ על קטגוריה להוספת הוצאה</div>`}
+  h+='</div>';
+  h+=`<div class="card"><div class="ct">🛒 הוצאות משתנות</div><div class="ib" style="margin-bottom:9px;font-size:11px">מזון, בגדים, בילויים — הוצאות שמשתנות מחודש לחודש</div>`;
+  if(thisMonthVar.length){h+=`<div style="display:flex;justify-content:space-between;margin-bottom:7px"><span style="color:var(--text2);font-size:12px">${ml(nm())} — ${thisMonthVar.length} הוצאות</span><span style="font-weight:700;color:var(--red);font-size:12px">-₪${fmt(totVar)}</span></div>`;thisMonthVar.forEach(e=>{h+=`<div class="row"><div><span style="font-weight:700;font-size:12px">${e.name}</span><div style="font-size:10px;color:var(--text3)">${e.date}</div></div><div style="display:flex;align-items:center;gap:6px"><span style="font-weight:700;color:var(--red);font-size:12px">-₪${fmt(e.amount)}</span><button class="bi" style="color:var(--red)" onclick="delVar(${e.id})">✕</button></div></div>`})}else{h+=`<div style="color:var(--text3);font-size:12px;margin-bottom:7px">החודש עוד אין הוצאות משתנות</div>`}
+  h+=`<div style="display:flex;gap:6px;margin-top:9px;flex-wrap:wrap"><input class="inp" id="var-name" style="flex:2;min-width:90px" placeholder="שם ההוצאה"><input class="inp" id="var-amt" style="flex:1;min-width:50px" type="number" placeholder="₪"><input class="inp" id="var-date" style="max-width:120px" type="date" value="${td()}"><button class="bp" onclick="addVar()">+</button></div></div>`;
+  d.innerHTML=h;return d;
+}
+function openFEModal(catId){
+  const cat=fc(catId);const ph={mortgage:'משכנתא דירה',rent:'שכ״ד חודשי',insurance:'ביטוח חיים',pension:'קרן פנסיה',savings:'חיסכון חודשי',mgmt:'דמי ניהול',other:'הוצאה קבועה'};
+  OM(`<div class="mt"><span style="color:${cat.cl}">${cat.lb}</span> — הוסף הוצאה קבועה</div><div class="ig"><label class="lbl">שם ההוצאה</label><input class="inp" id="fem-name" placeholder="${ph[catId]||'שם ההוצאה'}"></div><div class="ig"><label class="lbl">סכום חודשי (₪)</label><input class="inp" type="number" id="fem-amt" placeholder="0" style="font-size:20px;font-weight:700"></div><div class="ig"><label class="lbl">יום בחודש שיורד <span style="color:var(--text3);font-size:9px">(אופציונלי)</span></label><input class="inp" type="number" id="fem-day" placeholder="1-31" min="1" max="31"></div><div style="display:flex;gap:7px"><button class="bp" style="flex:1" onclick="saveFEModal('${catId}')">✅ הוסף</button><button class="bs" onclick="CM()">ביטול</button></div>`);
+}
+function saveFEModal(catId){const n=(document.getElementById('fem-name')||{}).value||'';const a=parseFloat((document.getElementById('fem-amt')||{}).value||0);const day=(document.getElementById('fem-day')||{}).value||'';if(!n||!a){alert('נא למלא שם וסכום');return}if(!DB.settings.fixedExp)DB.settings.fixedExp=[];
+if(!DB.bankBalance)DB.bankBalance={};DB.settings.fixedExp.push({name:n,amount:a,category:catId,date:day});sv();CM();gt('salary')}
+function reRen(){if(CT==='salary'){const c=document.getElementById('content');c.innerHTML='';c.appendChild(rSalary())}}
+function remFE(i){DB.settings.fixedExp.splice(i,1);sv();gt('salary')}
+function addVar(){const n=(document.getElementById('var-name')||{}).value||'';const a=parseFloat((document.getElementById('var-amt')||{}).value||0);const date=(document.getElementById('var-date')||{}).value||td();if(!n||!a)return;if(!DB.varExpenses)DB.varExpenses=[];DB.varExpenses.push({id:uid(),name:n,amount:a,date});sv();gt('salary')}
+function delVar(id){DB.varExpenses=DB.varExpenses.filter(e=>e.id!==id);sv();gt('salary')}
+function sSF(k,v){if(!DB.settings)DB.settings={};DB.settings[k]=v;sv()}
+// LOCAL AI ADVISOR - No API needed, works offline
+function analyzeFinances(){
+  const{tot,totFee,uTx,inc,exp,bal}=getFin();
+  const s=DB.settings||{};const p=DB.profile||{};
+  const sal=parseFloat(s.monthlySalary)||0;
+  const fixT=(s.fixedExp||[]).reduce((sum,e)=>sum+e.amount,0);
+  const age=parseInt(p.age)||35;
+  const thisMonthVar=(DB.varExpenses||[]).filter(e=>e.date&&e.date.startsWith(nm()));
+  const totVar=thisMonthVar.reduce((sm,e)=>sm+e.amount,0);
+  const totalExp=exp+totVar;
+  const savingsRate=sal>0?Math.round((sal-fixT-totVar)/sal*100):0;
+  const fixedRate=sal>0?Math.round(fixT/sal*100):0;
+  const pension=DB.investments.filter(i=>i.catId==='pension');
+  const pensionTotal=pension.reduce((s2,i)=>s2+(i.currentValue||0),0);
+  const stocksTotal=DB.investments.filter(i=>i.catId==='stocks').reduce((s2,i)=>s2+(i.currentValue||0),0);
+  const realEstateTotal=DB.investments.filter(i=>i.catId==='realestate').reduce((s2,i)=>s2+(i.currentValue||0),0);
+  const cryptoTotal=DB.investments.filter(i=>i.catId==='crypto').reduce((s2,i)=>s2+(i.currentValue||0),0);
+  const cryptoPct=tot>0?Math.round(cryptoTotal/tot*100):0;
+  const emergencyMonths=sal>0?Math.round(tot/(sal)):0;
+  return{tot,totFee,inc,exp,bal,sal,fixT,age,thisMonthVar,totVar,totalExp,savingsRate,fixedRate,pension,pensionTotal,stocksTotal,realEstateTotal,cryptoTotal,cryptoPct,emergencyMonths,p,s};
+}
+
+function genAdvice(question){
+  const d=analyzeFinances();
+  const{tot,totFee,inc,exp,bal,sal,fixT,age,totVar,savingsRate,fixedRate,pension,pensionTotal,stocksTotal,realEstateTotal,cryptoTotal,cryptoPct,emergencyMonths,p,s}=d;
+  const q=question.toLowerCase();
+
+  // Detect question type
+  if(q.includes('מצב') || q.includes('נתח') || q.includes('סיכום') || q.includes('סקירה')){
+    return adviceOverall(d);
+  }
+  if(q.includes('פנסי') || q.includes('פרישה') || q.includes('גיל')){
+    return advicePension(d);
+  }
+  if(q.includes('חירום') || q.includes('כרית') || q.includes('חיסכון בטוח')){
+    return adviceEmergency(d);
+  }
+  if(q.includes('חוב') || q.includes('להחזיר') || q.includes('משכנתא') && q.includes('להשקיע')){
+    return adviceDebtVsInvest(d);
+  }
+  if(q.includes('דמי ניהול') || q.includes('עלויות') || q.includes('יקר')){
+    return adviceManagementFees(d);
+  }
+  if(q.includes('חסוך') || q.includes('לחסוך') || q.includes('טיפים') || q.includes('לשפר')){
+    return adviceSave(d);
+  }
+  if(q.includes('סדר') || q.includes('עדיפות') || q.includes('להתחיל') || q.includes('ראשון')){
+    return advicePriority(d);
+  }
+  if(q.includes('קריפטו') || q.includes('ביטקוין') || q.includes('crypto')){
+    return adviceCrypto(d);
+  }
+  if(q.includes('נדל"ן') || q.includes('דירה') || q.includes('להשקיע בנדל')){
+    return adviceRealEstate(d);
+  }
+  if(q.includes('מניות') || q.includes('שוק ההון') || q.includes('etf') || q.includes('snp') || q.includes('s&p') || q.includes('msci')){
+    return adviceStocks(d);
+  }
+  if(q.includes('תקציב') || q.includes('50/30') || q.includes('תזרים')){
+    return adviceBudget(d);
+  }
+  // Default - general overview
+  return adviceOverall(d);
+}
+
+function star(n,max){return '★'.repeat(Math.min(n,max))+'☆'.repeat(Math.max(0,max-n))}
+
+function adviceOverall(d){
+  const{tot,totFee,bal,sal,fixT,age,savingsRate,fixedRate,pensionTotal,cryptoPct,p}=d;
+  let level=1;
+  if(bal>=0) level=2;
+  if(bal>=0&&savingsRate>=10) level=3;
+  if(bal>=0&&savingsRate>=20&&tot>sal*12) level=4;
+  const lvlNames=['🔴 רמה 1 — בסיס','🟠 רמה 2 — ביטחון','🟡 רמה 3 — צמיחה','🟢 רמה 4 — חירות'];
+  let r=`📊 ניתוח מצב פיננסי — ${p.name||'לך'}
+
+`;
+  r+=`═══════════════════════
+`;
+  r+=`📍 מיקומך בהיררכיה הפיננסית:
+${lvlNames[level-1]}
+
+`;
+
+  // Traffic light
+  const tl=bal>=0?'🟢':'🔴';
+  r+=`${tl} תזרים חודשי: ${bal>=0?'+':''}₪${fmt(bal)}
+`;
+  r+=`💎 סך נכסים: ₪${fmt(tot)}
+`;
+  if(sal)r+=`💰 משכורת: ₪${fmt(sal)} | חיסכון פוטנציאלי: ${savingsRate}%
+`;
+  if(totFee>0)r+=`⚠️ דמי ניהול: ₪${fmt(Math.round(totFee))}/חודש (₪${fmt(Math.round(totFee*12))}/שנה)
+`;
+  r+=`
+`;
+
+  // SWOT style
+  r+=`✅ חוזקות:
+`;
+  if(bal>0)r+=`• תזרים חיובי — אתה לא מפסיד כסף כל חודש
+`;
+  if(tot>sal*3&&sal>0)r+=`• יש לך יותר מ-3 משכורות כחיסכון
+`;
+  if(pensionTotal>0)r+=`• יש לך פנסיה מצטברת — בסיס טוב
+`;
+  if(cryptoPct<10&&cryptoPct>0)r+=`• אחוז קריפטו סביר (${cryptoPct}%)
+`;
+  if(bal<=0||tot<sal*3||pensionTotal===0)r+=`• פוטנציאל צמיחה גדול מלפנייך!
+`;
+  r+=`
+`;
+
+  r+=`⚠️ נקודות לשיפור:
+`;
+  if(bal<0)r+=`• גירעון חודשי — חייב לטפל לפני כל דבר אחר
+`;
+  if(fixedRate>50)r+=`• ${fixedRate}% מהמשכורת על קבועות — מעל 50%! (כלל 50/30/20)
+`;
+  if(totFee>sal*0.01&&sal>0)r+=`• דמי ניהול גבוהים — בדוק אם אפשר להוריד
+`;
+  if(cryptoPct>10)r+=`• קריפטו ${cryptoPct}% מהתיק — מומלץ עד 10% (RBFCU)
+`;
+  if(pensionTotal===0)r+=`• אין פנסיה רשומה — חשוב להוסיף
+`;
+  r+=`
+`;
+
+  r+=`🎯 3 צעדי פעולה מיידיים:
+`;
+  let step=1;
+  if(bal<0){r+=`${step++}. ✂️ צמצם הוצאות ב-₪${fmt(Math.abs(bal))} כדי להגיע לתזרים אפס
+`}
+  if(totFee>300){r+=`${step++}. 📞 בדוק עם הגוף המנהל אם אפשר להוריד דמי ניהול — חיסכון ₪${fmt(Math.round(totFee*12))}/שנה
+`}
+  if(pensionTotal===0){r+=`${step++}. 🏦 פנה למחלקת HR ובדוק שפנסיית מעסיק פעילה
+`}
+  else if(savingsRate<20&&sal>0){r+=`${step++}. 📈 הגדל חיסכון חודשי לפחות ל-20% מהמשכורת — ₪${fmt(Math.round(sal*0.2))}/חודש
+`}
+  if(step<=3)r+=`${step}. 📊 עדכן את כל הנכסים בטאב ההשקעות לתמונה מדויקת
+`;
+  return r;
+}
+
+function advicePension(d){
+  const{pensionTotal,sal,age,p}=d;
+  const retireAge=65;const yearsLeft=Math.max(retireAge-age,1);
+  const monthsLeft=yearsLeft*12;
+  const targetPension=sal*0.7*12*20; // 70% of salary for 20 years
+  const monthlyDeposit=sal*0.225; // employer+employee+severance ~22.5%
+  const annualReturn=0.05;
+  const futureVal=pensionTotal*Math.pow(1+annualReturn,yearsLeft)+monthlyDeposit*((Math.pow(1+annualReturn/12,monthsLeft)-1)/(annualReturn/12));
+  const isOnTrack=futureVal>=targetPension;
+  let r=`🏦 ניתוח פנסיה — גיל ${age}
+
+`;
+  r+=`⏰ נותרו ${yearsLeft} שנים לגיל פרישה (65)
+`;
+  r+=`💰 צבירה נוכחית: ₪${fmt(pensionTotal)}
+`;
+  if(sal){
+    r+=`📈 הפקדות חודשיות (22.5%): ₪${fmt(Math.round(monthlyDeposit))}
+`;
+    r+=`🎯 יעד: ₪${fmt(Math.round(targetPension))} (70% משכורת × 20 שנה)
+`;
+    r+=`📊 תחזית בגיל 65 (5% תשואה): ₪${fmt(Math.round(futureVal))}
+`;
+    r+=`
+${isOnTrack?'✅ אתה במסלול טוב!':'⚠️ יש פער — כדאי לבחון הגדלת הפקדה'}
+
+`;
+  }
+  r+=`💡 עקרונות מחקר Vanguard:
+`;
+  r+=`• כל 1% דמי ניהול = 17% פחות בפנסיה אחרי 30 שנה
+`;
+  r+=`• קרן השתלמות = הטבת מס + פטור אחרי 6 שנים
+`;
+  r+=`• פנסיה מקיפה עדיפה על ביטוח מנהלים ברוב המקרים
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. 📞 בדוק עם HR שאתה ממצה את הפקדות המעסיק
+`;
+  r+=`2. 💳 בדוק דמי ניהול בקרן — מעל 0.5% מצבירה זה גבוה
+`;
+  r+=`3. 📋 פתח/הגדל קרן השתלמות עד לתקרת הפטור ממס
+`;
+  return r;
+}
+
+function adviceEmergency(d){
+  const{tot,sal,fixT,bal}=d;
+  const monthly=sal||0;const needed3=monthly*3;const needed6=monthly*6;
+  const liquidAssets=DB.transactions.filter(t=>t.type==='income').slice(-3).reduce((s2,t)=>s2+t.amount,0)/3;
+  let r=`🆘 קרן חירום
+
+`;
+  r+=`📌 עקרון: 3-6 משכורות בחשבון נזיל (עו"ש / פיקדון / MMF)
+
+`;
+  if(monthly){
+    r+=`💰 משכורת: ₪${fmt(monthly)}
+`;
+    r+=`🎯 יעד מינימלי (3 חודשים): ₪${fmt(Math.round(needed3))}
+`;
+    r+=`🎯 יעד אופטימלי (6 חודשים): ₪${fmt(Math.round(needed6))}
+
+`;
+  }
+  r+=`❓ מי צריך יותר?
+`;
+  r+=`• שכיר יציב → 3 חודשים מספיק
+`;
+  r+=`• עצמאי / פרילנס → 6-12 חודשים חובה
+`;
+  r+=`• ילדים / משכנתא → 6 חודשים מומלץ
+
+`;
+  r+=`💡 היכן לשמור:
+`;
+  r+=`1. 🏦 פיקדון בנקאי גמיש — בטוח ונזיל
+`;
+  r+=`2. 📈 קרן כספית (MMF) — תשואה ~4-5% עם נזילות מלאה
+`;
+  r+=`3. ❌ לא בשוק ההון — עלול להיות בשפל כשתצטרך
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. חשב את הגובה הנכון לפי מצבך
+`;
+  r+=`2. פתח חשבון נפרד ייעודי — "לא לגעת"
+`;
+  r+=`3. הפקד ₪${monthly?fmt(Math.round(monthly*0.1)):'X'}/חודש עד להשגת היעד
+`;
+  return r;
+}
+
+function adviceDebtVsInvest(d){
+  const{bal,sal}=d;
+  let r=`⚖️ להחזיר חוב vs. להשקיע
+
+`;
+  r+=`📌 הכלל הפשוט:
+`;
+  r+=`• ריבית חוב > תשואה צפויה → החזר חוב קודם
+`;
+  r+=`• ריבית חוב < תשואה צפויה → שקול להשקיע
+
+`;
+  r+=`📊 השוואה מעשית:
+`;
+  r+=`• כרטיס אשראי 15-20% → החזר תמיד קודם!
+`;
+  r+=`• הלוואה אישית 6-8% → בדוק מול תשואת השקעה צפויה
+`;
+  r+=`• משכנתא 3-5% → כנראה עדיף להשקיע (S&P ~7%)
+
+`;
+  r+=`💡 Debt Avalanche (מחקר מתמטי):
+החזר חוב ריבית גבוהה קודם — חוסך הכי הרבה
+
+`;
+  r+=`💡 Debt Snowball (Dave Ramsey):
+החזר חוב הקטן ביותר קודם — מוטיבציה גבוהה יותר
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. רשום את כל חובותיך עם הריבית שלהם
+`;
+  r+=`2. חובות מעל 8% — החזר לפני השקעה
+`;
+  r+=`3. חובות מתחת ל-5% — השקע במקביל
+`;
+  return r;
+}
+
+function adviceManagementFees(d){
+  const{totFee,tot}=d;
+  const annualFee=totFee*12;
+  const loss20=tot*0.01*20; // approximate loss from 1% fee over 20 years
+  let r=`💳 ניתוח דמי ניהול
+
+`;
+  if(totFee>0){
+    r+=`📊 דמי ניהול נוכחיים:
+`;
+    r+=`• חודשי: ₪${fmt(Math.round(totFee))}
+`;
+    r+=`• שנתי: ₪${fmt(Math.round(annualFee))}
+
+`;
+    if(tot>0){
+      const pct=(annualFee/tot*100).toFixed(2);
+      r+=`• אחוז מהתיק: ${pct}%/שנה
+`;
+      if(parseFloat(pct)>1) r+=`⚠️ גבוה מ-1% — שווה לבדוק חלופות!
+`;
+      else if(parseFloat(pct)>0.5) r+=`💛 בינוני — יש מקום לשיפור
+`;
+      else r+=`✅ סביר
+`;
+    }
+    r+=`
+`;
+  }
+  r+=`📌 מחקר Vanguard — השפעת דמי ניהול:
+`;
+  r+=`• 0.1%/שנה → עלות נמוכה (ETF מחקה מדד)
+`;
+  r+=`• 0.5%/שנה → סביר לקרן אקטיבית
+`;
+  r+=`• 1%+/שנה → גבוה — שוה לשקול מעבר
+`;
+  r+=`• על ₪500,000 — כל 1% עולה ₪5,000/שנה = ₪100,000+ ב-20 שנה!
+
+`;
+  r+=`💡 כיצד להפחית:
+`;
+  r+=`1. 📈 ETF מחקי מדד (VOO, IWDA) — דמי ניהול 0.03-0.2%
+`;
+  r+=`2. 📞 פנה לחברת הפנסיה ובקש מסלול דמי ניהול מופחתים
+`;
+  r+=`3. 🔄 שקול לרכז פנסיות מפוזרות לחברה אחת
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. בדוק דמי ניהול בכל גוף בנפרד
+`;
+  r+=`2. השווה עם מסלולים זולים יותר
+`;
+  r+=`3. אם אפשר — עבור ל-ETF מחקה מדד לחלק מהתיק
+`;
+  return r;
+}
+
+function adviceSave(d){
+  const{bal,sal,fixT,fixedRate,savingsRate,totVar}=d;
+  let r=`💡 טיפים לחיסכון
+
+`;
+  if(sal){
+    r+=`📊 תמונת מצב:
+`;
+    r+=`• הוצאות קבועות: ${fixedRate}% ממשכורת ${fixedRate>50?'⚠️ גבוה':'✅'}
+`;
+    r+=`• נשאר לשיקול דעת: ₪${fmt(sal-fixT)}
+
+`;
+  }
+  r+=`📌 כלל 50/30/20 (Elizabeth Warren):
+`;
+  r+=`• 50% צרכים: דיור, מזון, תחבורה, ביטוח
+`;
+  r+=`• 30% רצונות: בילויים, קניות, חופשות
+`;
+  r+=`• 20% חיסכון: פנסיה, קרן חירום, השקעות
+
+`;
+  r+=`💡 8 טיפים מוכחים:
+`;
+  r+=`1. 🤖 אוטומציה — הפקד לחיסכון ב-1 לחודש לפני הוצאות
+`;
+  r+=`2. 📋 עקב אחרי כל הוצאה שבועית (הטאב "תזרים")
+`;
+  r+=`3. 🛒 כלל 24 שעות — המתן יום לפני קנייה גדולה
+`;
+  r+=`4. 📱 בטל מנויים שלא משתמשים — ₪100-200/חודש חיסכון
+`;
+  r+=`5. 🏷️ קניות סופר עם רשימה — חוסך 15-20% מהחשבון
+`;
+  r+=`6. ☕ קפה מהבית × 20 ימי עבודה = ₪200+/חודש
+`;
+  r+=`7. 🚗 השווה ביטוחים כל שנה — לעתים חוסך ₪500+
+`;
+  r+=`8. 💳 שלם כרטיסי אשראי במלואם — הימנע מריבית
+
+`;
+  r+=`🎯 3 צעדים מיידיים:
+`;
+  r+=`1. פתח חשבון חיסכון נפרד להעביר אליו ₪${sal?fmt(Math.round(sal*0.1)):'X'}/חודש
+`;
+  r+=`2. עבור לאפליקציה ורשום את 3 ההוצאות הגדולות שלך
+`;
+  r+=`3. בחר הוצאה אחת לצמצם השבוע הקרוב
+`;
+  return r;
+}
+
+function advicePriority(d){
+  const{bal,pensionTotal,tot,sal,fixedRate}=d;
+  let step=1;let r=`🗺️ סדר עדיפויות — היכן להתחיל
+
+`;
+  r+=`📌 ההיררכיה הפיננסית הנכונה:
+
+`;
+  r+=`${bal<0?'👉':''} ${step++}. ✂️ תזרים חיובי
+`;
+  r+=`   הכנסות > הוצאות. בלי זה — שום דבר אחר לא עובד.
+`;
+  r+=`   ${bal>=0?'✅ אתה כאן!':'⚠️ כאן אתה עכשיו — התמקד כאן ראשון!'}
+
+`;
+  r+=`${bal>=0&&tot<sal*3?'👉':''} ${step++}. 🆘 קרן חירום (3-6 משכורות)
+`;
+  r+=`   בחשבון נזיל — ממתן הלם פיננסי.
+`;
+  r+=`   ${sal>0&&tot>=sal*3?'✅ נראה שיש לך בסיס':'💡 יעד: ₪'+fmt(Math.round((sal||0)*3))}
+
+`;
+  r+=`${step++}. 🛡️ ביטוחים
+`;
+  r+=`   חיים, נכות, בריאות. לאחר נשואין/ילדים — חובה.
+
+`;
+  r+=`${step++}. 🏦 פנסיה וקרן השתלמות
+`;
+  r+=`   ממצה הטבות מס — זה כסף חינם מהמדינה והמעסיק.
+`;
+  r+=`   ${pensionTotal>0?'✅ יש לך פנסיה':'⚠️ בדוק שהפנסיה פעילה!'}
+
+`;
+  r+=`${step++}. 💳 החזר חובות יקרים (>8% ריבית)
+
+`;
+  r+=`${step++}. 📈 השקעות לטווח ארוך
+`;
+  r+=`   שוק ההון, נדל"ן, עסקים — רק אחרי השלבים הקודמים.
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  step=1;
+  if(bal<0){r+=`${step++}. ✂️ פתח את הטאב "משכורת" וצמצם הוצאות ב-₪${fmt(Math.abs(bal))}
+`}
+  if(pensionTotal===0){r+=`${step++}. 📞 בדוק מול HR שפנסיה פעילה
+`}
+  if(step<=3&&sal>0){r+=`${step++}. 💰 פתח קרן חירום של ₪${fmt(Math.round(sal*3))} בפיקדון נפרד
+`}
+  if(step<=3){r+=`${step}. 📊 עדכן את כל הנכסים באפליקציה לתמונה מדויקת
+`}
+  return r;
+}
+
+function adviceCrypto(d){
+  const{cryptoTotal,tot,cryptoPct}=d;
+  let r=`₿ ניתוח קריפטו
+
+`;
+  if(cryptoTotal>0){
+    r+=`📊 חשיפה נוכחית:
+`;
+    r+=`• שווי: ₪${fmt(cryptoTotal)}
+`;
+    r+=`• אחוז מהתיק: ${cryptoPct}%
+`;
+    r+=cryptoPct>10?`⚠️ מעל 10% — מחקר RBFCU ממליץ להפחית
+`:`✅ בטווח המומלץ (עד 10%)
+`;
+    r+=`
+`;
+  }
+  r+=`📌 מחקר RBFCU — עובדות:
+`;
+  r+=`• BTC ירד 80%+ ב-2018 וב-2022
+`;
+  r+=`• FTX, Celsius, BlockFi — פלטפורמות שקרסו
+`;
+  r+=`• רגולציה משתנה — סיכון חוקי
+`;
+  r+=`• אין ביטוח פיקדון (בניגוד לבנקים)
+
+`;
+  r+=`💡 אם רוצים לחשוף לקריפטו:
+`;
+  r+=`• מקסימום 5-10% מהתיק הכולל
+`;
+  r+=`• רק כסף שמוכנים לאבד לגמרי
+`;
+  r+=`• ארנק קר (hardware wallet) לסכומים גדולים
+`;
+  r+=`• Bitcoin ו-Ethereum — פחות ספקולטיבי מ-altcoins
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. הגדר את הסכום המקסימלי שאתה מוכן להפסיד
+`;
+  r+=`2. אל תשים יותר ממה שגורם לך לאיבוד שינה
+`;
+  r+=`3. רכוש רק בפלטפורמות מוסדרות (eToro, Coinbase)
+`;
+  return r;
+}
+
+function adviceRealEstate(d){
+  const{realEstateTotal,tot}=d;
+  const realestate=DB.investments.filter(i=>i.catId==='realestate');
+  let r=`🏠 ניתוח נדל"ן
+
+`;
+  if(realestate.length>0){
+    r+=`📊 נכסי נדל"ן נוכחיים:
+`;
+    realestate.forEach(re=>{
+      const netRent=(re.monthlyRent||0)-(re.mortgage||0)-(re.managementFee||0);
+      if(re.monthlyRent&&re.currentValue){
+        const ratio=re.currentValue/((re.monthlyRent)*12);
+        r+=`• ${re.displayName}: תזרים נטו ₪${fmt(netRent)}/חודש | יחס מחיר/שכ"ד: ${ratio.toFixed(0)}x
+`;
+      }
+    });
+    r+=`
+`;
+  }
+  r+=`📌 מחקר Visual Capitalist:
+`;
+  r+=`• תזרים נטו = שכ"ד - משכנתא - תחזוקה (1%/שנה) - מיסים
+`;
+  r+=`• יחס מחיר/שכ"ד: מתחת ל-15 = אטרקטיבי, מעל 25 = יקר
+`;
+  r+=`• תחזוקה: חשב 1% מהשווי לשנה (₪${realEstateTotal?fmt(Math.round(realEstateTotal*0.01)):'X'}/שנה)
+
+`;
+  r+=`💡 שאלות לפני השקעה:
+`;
+  r+=`• האם התזרים החודשי חיובי גם ב-2 חודשי ריק?
+`;
+  r+=`• האם יש לי הון עצמי מינימלי 20%?
+`;
+  r+=`• האם אני מסוגל לספוג עלויות בלתי צפויות?
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. חשב תזרים נטו מדויק כולל כל העלויות
+`;
+  r+=`2. בדוק יחס מחיר/שכ"ד באזור שמעניין אותך
+`;
+  r+=`3. השווה תשואה מנדל"ן מול שוק ההון + מינוף
+`;
+  return r;
+}
+
+function adviceStocks(d){
+  const{stocksTotal,tot,sal,age}=d;
+  const stocksPct=tot>0?Math.round(stocksTotal/tot*100):0;
+  const recommendedStocks=Math.max(0,110-age);
+  let r=`📈 ניתוח שוק ההון
+
+`;
+  if(stocksTotal>0){
+    r+=`📊 חשיפה נוכחית: ₪${fmt(stocksTotal)} (${stocksPct}% מהתיק)
+`;
+    r+=`💡 מומלץ לגיל ${age}: ${recommendedStocks}% מניות
+`;
+    r+=`${stocksPct>=recommendedStocks*0.8&&stocksPct<=recommendedStocks*1.2?'✅ הקצאה הגיונית':'💡 שקול להתאים הקצאה'}
+
+`;
+  }
+  r+=`📌 מחקר S&P SPIVA:
+`;
+  r+=`• 92% מקרנות אקטיביות לא מכות את המדד ב-15 שנה
+`;
+  r+=`• → ETF מחקה מדד עדיף ל-92% מהמשקיעים!
+
+`;
+  r+=`📌 מחקר Vanguard — DCA:
+`;
+  r+=`• הפקדה חודשית קבועה עדיפה על תזמון שוק ב-66% מהמקרים
+`;
+  r+=`• הכנס ₪${sal?fmt(Math.round(sal*0.1)):''} כל 1 לחודש — ללא קשר למחיר
+
+`;
+  r+=`💡 אסטרטגיה מומלצת (מבוסס מחקר):
+`;
+  r+=`• 70% S&P 500 / MSCI World (מדדים גלובליים)
+`;
+  r+=`• 20% אג"ח (יציבות)
+`;
+  r+=`• 10% ישראל (תל אביב 125) / גיוון
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. פתח/הגדל הוראת קבע חודשית ל-ETF מחקה מדד
+`;
+  r+=`2. בדוק שדמי ניהול של הקרן מתחת ל-0.5%/שנה
+`;
+  r+=`3. אל תמכור בירידות — ריבית דריבית עובדת לאורך זמן
+`;
+  return r;
+}
+
+function adviceBudget(d){
+  const{sal,fixT,fixedRate,totVar,bal}=d;
+  let r=`📋 ניתוח תקציב — כלל 50/30/20
+
+`;
+  if(sal){
+    const needs=Math.round(sal*0.5);const wants=Math.round(sal*0.3);const save=Math.round(sal*0.2);
+    r+=`📊 מה אמור להיות (משכורת ₪${fmt(sal)}):
+`;
+    r+=`• 50% צרכים: ₪${fmt(needs)} | בפועל: ₪${fmt(fixT)} ${fixedRate>50?'⚠️ חריגה!':'✅'}
+`;
+    r+=`• 30% רצונות: ₪${fmt(wants)}
+`;
+    r+=`• 20% חיסכון: ₪${fmt(save)}
+
+`;
+  }
+  r+=`📌 Zero-Based Budgeting:
+`;
+  r+=`• כל שקל מקבל "משרה" — הכנסה מינוס הוצאות = 0
+`;
+  r+=`• לא "מה נשאר" — אלא "לאן כל שקל הולך"
+
+`;
+  r+=`💡 Pay Yourself First:
+`;
+  r+=`• הפקד ${sal?'₪'+fmt(Math.round(sal*0.2)):''} לחיסכון ב-1 לחודש
+`;
+  r+=`• רק אחר כך תוציא את השאר
+`;
+  r+=`• אוטומציה = הצלחה גבוהה יותר
+
+`;
+  r+=`🎯 3 צעדים:
+`;
+  r+=`1. רשום את כל ההוצאות בטאב "תזרים" למשך חודש
+`;
+  r+=`2. בחן היכן חורג מ-50% על צרכים
+`;
+  r+=`3. הגדר הוראת קבע לחיסכון ${sal?'₪'+fmt(Math.round(sal*0.1)):''}/חודש
+`;
+  return r;
+}
+
+let _aiL=false;
+function rAI(){
+  const d=document.createElement('div');const chat=DB.aiChat||[];
+  let h=`<h2 class="pt">🤖 יועץ פיננסי AI</h2>`;
+  h+=`<div class="tb" style="margin-bottom:6px"><strong>🧠 יועץ פיננסי מקומי</strong> — מבוסס על מחקרים פיננסיים, עובד ללא אינטרנט!</div>`;
+  h+=`<div class="wb" style="font-size:11px;margin-bottom:9px">⚠️ מידע כללי בלבד — לא תחליף לייעוץ מורשה.</div>`;
+  h+=`<div class="card" style="padding:0"><div id="cm" style="padding:10px">`;
+  if(!chat.length){
+    const sug=['נתח את המצב הפיננסי שלי','מה הסדר הנכון לניהול הכסף?','האם אני חוסך מספיק לפנסיה?','מה עדיף — להחזיר חוב או להשקיע?','איך לבנות כרית חירום?','האם דמי הניהול שלי גבוהים?','תן לי טיפים לחסוך יותר','ניתוח שוק ההון שלי','ניתוח נדל"ן שלי'];
+    h+=`<div style="text-align:center;padding:14px 0;color:var(--text2)"><div style="font-size:38px;margin-bottom:8px">🤖</div><p style="font-weight:600;margin-bottom:12px;font-size:13px">שאל אותי כל שאלה פיננסית!</p><div class="pills" style="justify-content:center">${sug.map(q=>`<button class="bm" style="font-size:10px;padding:5px 9px" onclick="setAQ('${q.replace(/'/g,"\'")}') ">${q}</button>`).join('')}</div></div>`;
+  }else{
+    chat.forEach(function(m){var mc=esc(m.content||'');h+='<div class="cr '+(m.role==='user'?'u':'a')+'"><div class="cbub '+(m.role==='user'?'u':'a')+'"><div class="cs '+(m.role==='user'?'u':'a')+'">'+(m.role==='user'?'👤 אתה':'🤖 יועץ AI')+'</div>'+mc+'</div></div>'});
+    if(_aiL)h+=`<div class="cr a"><div class="cbub a"><div class="cs a">🤖 יועץ AI</div><span class="ld">✍️ חושב...</span></div></div>`;
+  }
+  h+=`</div></div><div style="display:flex;gap:6px;margin-top:8px"><input class="inp" id="ai-inp" style="flex:1;font-size:14px" placeholder="שאל שאלה..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendAI()"><button class="bp" style="min-width:60px" onclick="sendAI()">שלח →</button></div>`;
+  if(chat.length)h+=`<button class="bs" style="margin-top:6px;font-size:11px" onclick="clearAI()">🗑 נקה שיחה</button>`;
+  d.innerHTML=h;setTimeout(()=>{const el=document.getElementById('cm');if(el)el.scrollTop=el.scrollHeight},50);return d;
+}
+function setAQ(q){const el=document.getElementById('ai-inp');if(el)el.value=q}
+function clearAI(){DB.aiChat=[];sv();gt('ai')}
+function esc(s){var r='';for(var i=0;i<s.length;i++){var ch=s[i];if(ch==='&')r+='&amp;';else if(ch==='<')r+='&lt;';else if(ch==='>') r+='&gt;';else if(ch.charCodeAt(0)===10||ch.charCodeAt(0)===13)r+='<br>';else r+=ch;}return r;}
+function sendAI(){
+  const inp=document.getElementById('ai-inp');const msg=(inp?.value||'').trim();if(!msg)return;
+  if(inp)inp.value='';
+  DB.aiChat=DB.aiChat||[];
+  DB.aiChat.push({role:'user',content:msg});
+  const reply=genAdvice(msg);
+  DB.aiChat.push({role:'assistant',content:reply});
+  sv();gt('ai');
+}
+// SETTINGS
+function rSettings(){
+  var p=DB.profile||{};var d=document.createElement('div');
+  var h='<h2 class="pt">⚙️ הגדרות</h2>';
+  // Profile card
+  h+='<div class="card">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="ct" style="margin:0">👤 פרופיל אישי</div><button class="bs" style="font-size:11px;padding:5px 10px" onclick="editProfile()">✏️ ערוך</button></div>';
+  if(p.name){
+    // Avatar with upload option
+    var avatarEl=p.photo
+      ?('<img src="'+p.photo+'" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);cursor:pointer" onclick="triggerPhotoUpload()" title="החלף תמונה">')
+      :'<div style="width:64px;height:64px;border-radius:50%;background:var(--bg3);border:2px dashed var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:2px" onclick="triggerPhotoUpload()"><span style="font-size:22px">📷</span><span style="font-size:8px;color:var(--gold)">הוסף תמונה</span></div>';
+    h+='<input type="file" id="profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhoto(this)">';
+    h+='<div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">'+avatarEl+'<div style="flex:1">';
+    h+='<div style="font-weight:800;font-size:17px;color:var(--text)">'+p.name+(p.age?' <span style="color:var(--text2);font-size:13px;font-weight:400">· גיל '+p.age+'</span>':'')+'</div>';
+    h+='<div style="color:var(--text2);font-size:12px;margin-top:3px">'+([p.family,p.job,p.city].filter(Boolean).join(' · ')||'—')+'</div>';
+    if(p.kids)h+='<div style="color:var(--text2);font-size:11px;margin-top:2px">👨‍👩‍👦 '+p.kids+' ילדים</div>';
+    h+='</div></div>';
+    if(p.notes)h+='<div class="ib" style="font-size:12px">🎯 <strong>מטרות:</strong> '+p.notes+'</div>';
+    h+='<div style="font-size:10px;color:var(--text3);margin-top:4px;text-align:center">לחץ על התמונה/האייקון להוספת/החלפת תמונה מהגלריה</div>';
+  }else{
+    h+='<input type="file" id="profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhoto(this)">';
+    h+='<div style="text-align:center;padding:16px"><div style="font-size:36px;margin-bottom:8px">👤</div><div style="margin-bottom:12px;font-size:13px;color:var(--text2)">לא הוגדר פרופיל עדיין</div><button class="bp" onclick="editProfile()">➕ הוסף פרופיל</button></div>';
+  }
+  h+='</div>';
+  // Reset card — prominent and clear
+  h+='<div class="card" style="border:2px solid rgba(232,124,124,0.4);background:rgba(232,124,124,0.04)">';
+  h+='<div style="color:var(--red);font-weight:800;margin-bottom:6px;font-size:14px">🗑 איפוס נתונים</div>';
+  h+='<p style="color:var(--text2);font-size:12px;margin-bottom:14px">לחיצה על הכפתור תמחק <strong>את כל</strong> הנתונים — השקעות, תזרים, יעדים, פרופיל. לא ניתן לשחזר!</p>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+  h+='<button style="flex:1;background:var(--red);color:white;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;font-family:inherit" onclick="resetAll()">🗑 מחק הכל והתחל מחדש</button>';
+  h+='<button class="bs" style="font-size:12px" onclick="exportData()">💾 גבה קודם</button>';
+  h+='</div></div>';
+  d.innerHTML=h;return d;
+}
+function triggerPhotoUpload(){
+  var inp=document.getElementById('profile-photo-input');
+  if(inp)inp.click();
+}
+function handleProfilePhoto(inp){
+  var file=inp.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    DB.profile.photo=e.target.result;
+    sv();gt('settings');
+  };
+  reader.readAsDataURL(file);
+}
+function resetAll(){
+  if(!confirm('⚠️ האם למחוק את כל הנתונים?\n\nכל ההשקעות, תזרים, יעדים ופרופיל ימחקו לצמיתות!'))return;
+  if(!confirm('אתה בטוח? לא ניתן לשחזר!'))return;
+  try{localStorage.removeItem(K);}catch(e){}
+  // Clear all ff_ keys too
+  try{
+    var toRemove=[];
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k&&(k===K||k.startsWith('ff')))toRemove.push(k);
+    }
+    toRemove.forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
+  }catch(e){}
+  // Hard reset - clear DB in memory then reload
+  DB=JSON.parse(JSON.stringify(BL));
+  CT='dash';
+  window.location.href=window.location.pathname+'?t='+Date.now();
+}
+function exportData(){
+  try{
+    const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download='FinanceFlow-backup-'+new Date().toISOString().slice(0,10)+'.json';
+    a.click();URL.revokeObjectURL(url);
+  }catch(e){alert('שגיאה בגיבוי: '+e.message)}
+}
+function openHelp(){
+  var items=[
+    ['🏠 סקירה','כרטיסי KPI לחיצים — לחץ לנווט לפרטים.'],
+    ['📊 השקעות','הוסף נכסים. מחשבון ריבית דריבית. לחיצה כפולה 🗑 למחיקה.'],
+    ['💳 תזרים','יתרת עו"ש חודשית + הכנסות/הוצאות שקרו בפועל.'],
+    ['🎯 יעדים','טבעת התקדמות + בדיקת בר-השגה + לוח שנה.'],
+    ['💰 משכורת','הגדרות + הוצאות קבועות (לחץ קטגוריה) + משתנות.'],
+    ['🤖 AI','יועץ מקומי! עובד ללא אינטרנט, מכיר את הנתונים שלך.'],
+    ['⚙️ הגדרות','פרופיל אישי + איפוס נתונים + גיבוי.']
+  ];
+  var body=items.map(function(x){return '<div class="ib"><strong style="color:var(--text)">'+x[0]+'</strong> — '+x[1]+'</div>';}).join('');
+  OM('<div class="mt">❓ מדריך השימוש</div><div class="tb" style="margin-bottom:11px;font-size:12px">💎 FinanceFlow — ניהול פיננסי אישי חכם</div>'+body+'<button class="bp" style="width:100%;margin-top:8px" onclick="CM()">הבנתי! 👍</button>');
+}
+function OM(h){document.getElementById('mb').innerHTML=h;document.getElementById('mo').classList.add('show')}
+function CM(e){if(!e||e.target===document.getElementById('mo')){document.getElementById('mo').classList.remove('show')}}
+window.CM=CM;
+render();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js')
+      .then(function(r){ console.log('SW ok',r.scope); })
+      .catch(function(e){ console.log('SW skip',e); });
+  });
+}
+</script>
+</body>
+</html>
